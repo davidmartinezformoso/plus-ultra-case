@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLUS ULTRA CASE - Investigation Board</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Courier New', monospace;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid #FFD700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .header p {
+            font-size: 1.4em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .case-info {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 1200px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .overview {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 40px;
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .overview h2 {
+            color: #FFD700;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+        
+        .overview p {
+            line-height: 2;
+            font-size: 1.15em;
+            margin-bottom: 15px;
+        }
+        
+        .suspects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .suspect-card {
+            background: linear-gradient(135deg, #2C2C2C 0%, #1A1A1A 100%);
+            border: 3px solid #8B0000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .suspect-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(139, 0, 0, 0.5);
+            border-color: #FFD700;
+        }
+        
+        .suspect-card.main-suspect {
+            grid-column: span 2;
+            border: 4px solid #FFD700;
+        }
+        
+        .stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #DC143C;
+            color: white;
+            padding: 12px 20px;
+            font-weight: bold;
+            transform: rotate(15deg);
+            border: 3px solid #fff;
+            font-size: 1em;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(0,0,0,0.7);
+            z-index: 10;
+            animation: stamp 0.5s ease-out;
+        }
+        
+        @keyframes stamp {
+            0% { transform: rotate(15deg) scale(2); }
+            100% { transform: rotate(15deg) scale(1); }
+        }
+        
+        .photo-container {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            border-bottom: 3px solid #FFD700;
+            position: relative;
+        }
+        
+        .suspect-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+            transition: filter 0.3s;
+        }
+        
+        .suspect-card:hover .suspect-photo {
+            filter: grayscale(0%);
+        }
+        
+        .suspect-info {
+            padding: 25px;
+        }
+        
+        .suspect-name {
+            font-size: 2em;
+            color: #FFD700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 3px solid #8B0000;
+            padding-bottom: 15px;
+        }
+        
+        .role {
+            font-size: 1.3em;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .money-box {
+            background: linear-gradient(135deg, #228B22 0%, #006400 100%);
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 15px 0;
+            border: 3px solid #FFD700;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .section {
+            background: rgba(139, 0, 0, 0.2);
+            padding: 20px;
+            border-left: 5px solid #DC143C;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .section-title {
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .crimes-list {
+            list-style: none;
+        }
+        
+        .crimes-list li {
+            padding: 10px 0;
+            padding-left: 35px;
+            position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.05em;
+        }
+        
+        .crimes-list li:before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-size: 1.2em;
+        }
+        
+        .evidence-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px dashed #FFD700;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        
+        .evidence-title {
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .evidence-box p {
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        .connections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .connection-tag {
+            background: #8B0000;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 2px solid #FFD700;
+            transition: all 0.3s;
+        }
+        
+        .connection-tag:hover {
+            background: #FFD700;
+            color: #8B0000;
+            transform: scale(1.1);
+        }
+        
+        .scheme-section {
+            background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);
+            padding: 40px;
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .scheme-section h2 {
+            color: #FFD700;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .flow-diagram {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .flow-step {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .flow-step:before {
+            content: "➤";
+            position: absolute;
+            left: 20px;
+            color: #FFD700;
+            font-size: 1.5em;
+        }
+        
+        .flow-step strong {
+            color: #FFD700;
+        }
+        
+        .footer {
+            background: #8B0000;
+            border: 3px solid #FFD700;
+            padding: 40px;
+            text-align: center;
+            margin-top: 50px;
+            border-radius: 10px;
+        }
+        
+        .footer h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        .timeline {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+        
+        .timeline h2 {
+            color: #FFD700;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        
+        .timeline-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(139, 0, 0, 0.2);
+            border-left: 4px solid #DC143C;
+            border-radius: 5px;
+        }
+        
+        .timeline-date {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 968px) {
+            .suspect-card.main-suspect {
+                grid-column: span 1;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .suspects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔍 PLUS ULTRA INVESTIGATION 🔍</h1>
+        <p>CORRUPTION • MONEY LAUNDERING • INFLUENCE PEDDLING • GOLD TRAFFICKING</p>
+        <p style="margin-top: 15px; font-size: 1.1em;">Case File: Audiencia Nacional de España | Judge: José Luis Calama</p>
+    </div>
+
+    <div class="case-info">
+        <h2 style="color: #FFD700; margin-bottom: 15px;">📋 CASE SUMMARY</h2>
+        <p style="font-size: 1.2em; line-height: 1.8;">
+            Investigation into an alleged criminal organization that orchestrated a <strong>€53 million public bailout</strong> 
+            for Plus Ultra Líneas Aéreas, with kickbacks totaling <strong>€1.9 million</strong> allegedly funneled to former 
+            Prime Minister Zapatero and his daughters through shell companies and influence peddling.
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="overview">
+            <h2>🎯 CASE OVERVIEW</h2>
+            <p>
+                The Plus Ultra case represents one of Spain's most complex corruption investigations, connecting 
+                former high-ranking government officials, Venezuelan intelligence, gold trafficking, and airline bailouts. 
+                According to UDEF (Economic Crime Unit) reports, the network operated through a sophisticated web of 
+                shell companies, offshore accounts, and political influence.
+            </p>
+            <p>
+                The investigation reveals alleged connections to <strong>Venezuelan gold trafficking (5-8 tons)</strong>, 
+                dealings with sanctioned regimes, jewelry found in Zapatero's office safe worth €30,000-50,000, 
+                and links to former ETA members and Venezuelan military intelligence.
+            </p>
+        </div>
+
+        <div class="suspects-grid">
+            <!-- ZAPATERO -->
+            <div class="suspect-card main-suspect">
+                <div class="stamp">PRIME SUSPECT</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/054cca0e0-4efc-4145-bd29-09f2a38c5e695625.png" 
+                         alt="José Luis Rodríguez Zapatero" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">José Luis Rodríguez Zapatero</h2>
+                    <div class="role">Former Prime Minister of Spain (2004-2011)</div>
+                    
+                    <div class="money-box">€1.9 MILLION ALLEGED RECEIVED</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ CHARGES:</div>
+                        <ul class="crimes-list">
+                            <li>Criminal Organization (Alleged Leader)</li>
+                            <li>Influence Peddling</li>
+                            <li>Money Laundering</li>
+                            <li>Document Falsification</li>
+                            <li>Bribery</li>
+                            <li>Tax Fraud</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 KEY EVIDENCE:</div>
+                        <p>• UDEF wiretaps: "Zapatero aquí manda" (Zapatero is in charge here)</p>
+                        <p>• 1% commission contract (€641,300) through shell company Idella</p>
+                        <p>• Jewelry and watches found in office safe (€30,000-50,000)</p>
+                        <p>• Alleged ownership of Venezuelan gold mine (Orinoco basin)</p>
+                        <p>• Miami bank accounts under investigation</p>
+                        <p>• Daughters' company What The Fav received payments for "minimal work"</p>
+                        <p>• Hugo Carvajal testimony: Maduro gave Zapatero a gold mine</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">Laura & Alba Zapatero</span>
+                        <span class="connection-tag">Julio Martínez</span>
+                        <span class="connection-tag">José Luis Ábalos</span>
+                        <span class="connection-tag">Koldo García</span>
+                        <span class="connection-tag">Hugo Carvajal</span>
+                        <span class="connection-tag">Nicolás Maduro</span>
+                        <span class="connection-tag">Roberto Roselli</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JULIO MARTÍNEZ -->
+            <div class="suspect-card">
+                <div class="stamp">ARRESTED</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/454cca0e0-4efc-4145-bd29-09f2a38c5e696104.png" 
+                         alt="Julio Martínez Martínez" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">Julio Martínez Martínez</h2>
+                    <div class="role">President of Plus Ultra Airlines</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ CHARGES:</div>
+                        <ul class="crimes-list">
+                            <li>Money Laundering</li>
+                            <li>Criminal Organization Member</li>
+                            <li>Tax Fraud</li>
+                            <li>Bribery</li>
+                            <li>Fraud</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 KEY EVIDENCE:</div>
+                        <p>• Arrested December 11, 2025</p>
+                        <p>• Miami bank accounts (HSI investigation)</p>
+                        <p>• Paid 1% commission through offshore structures</p>
+                        <p>• Celebrated bailout with oysters & champagne</p>
+                        <p>• Agendas showing meetings with Zapatero circle</p>
+                        <p>• Released on bail</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">Roberto Roselli</span>
+                        <span class="connection-tag">Zapatero</span>
+                        <span class="connection-tag">Dubai shell companies</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROBERTO ROSELLI -->
+            <div class="suspect-card">
+                <div class="stamp">ARRESTED</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/054cca0e0-4efc-4145-bd29-09f2a38c5e695938.png" 
+                         alt="Roberto Roselli" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">Roberto Roselli</h2>
+                    <div class="role">CEO of Plus Ultra Airlines</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ CHARGES:</div>
+                        <ul class="crimes-list">
+                            <li>Money Laundering</li>
+                            <li>Criminal Organization Member</li>
+                            <li>Fraud</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 KEY EVIDENCE:</div>
+                        <p>• Arrested December 11, 2025</p>
+                        <p>• Coordinated bailout negotiations</p>
+                        <p>• Communications with political intermediaries</p>
+                        <p>• Released on bail</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">Julio Martínez</span>
+                        <span class="connection-tag">Ábalos Ministry</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JOSÉ LUIS ÁBALOS -->
+            <div class="suspect-card">
+                <div class="stamp">IMPRISONED</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/654cca0e0-4efc-4145-bd29-09f2a38c5e695162.png" 
+                         alt="José Luis Ábalos" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">José Luis Ábalos</h2>
+                    <div class="role">Former Minister of Transport (2018-2021)</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ CHARGES:</div>
+                        <ul class="crimes-list">
+                            <li>Bribery (Mask case)</li>
+                            <li>Embezzlement</li>
+                            <li>Criminal Organization</li>
+                            <li>Influence Peddling (Plus Ultra)</li>
+                            <li>Tax Fraud</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 KEY EVIDENCE:</div>
+                        <p>• Currently imprisoned for mask scandal</p>
+                        <p>• From prison, implicated Zapatero in Plus Ultra bailout</p>
+                        <p>• Claims he warned Sánchez about the rescue</p>
+                        <p>• €95,000 in unexplained expenses</p>
+                        <p>• Koldo García was his key advisor</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">Koldo García</span>
+                        <span class="connection-tag">Zapatero</span>
+                        <span class="connection-tag">Pedro Sánchez</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOLDO GARCÍA -->
+            <div class="suspect-card">
+                <div class="stamp">WHISTLEBLOWER</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/254cca0e0-4efc-4145-bd29-09f2a38c5e696436.png" 
+                         alt="Koldo García Izaguirre" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">Koldo García Izaguirre</h2>
+                    <div class="role">Former Advisor to Minister Ábalos</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ CHARGES:</div>
+                        <ul class="crimes-list">
+                            <li>Bribery (Mask scandal)</li>
+                            <li>Traffic of Influence</li>
+                            <li>Money Laundering</li>
+                            <li>Criminal Organization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 KEY EVIDENCE:</div>
+                        <p>• Key whistleblower in Plus Ultra case</p>
+                        <p>• Accused Zapatero of becoming "very rich" from Venezuelan oil & gold deals</p>
+                        <p>• Previously convicted of two assaults</p>
+                        <p>• Central figure in "Caso Koldo" (mask corruption)</p>
+                        <p>• Connected to ETA networks</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">José Luis Ábalos</span>
+                        <span class="connection-tag">Miguel Palomero</span>
+                        <span class="connection-tag">PSOE corruption</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HUGO CARVAJAL -->
+            <div class="suspect-card">
+                <div class="stamp">WITNESS</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/354cca0e0-4efc-4145-bd29-09f2a38c5e699059.png" 
+                         alt="Hugo Carvajal" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">Hugo "El Pollo" Carvajal</h2>
+                    <div class="role">Former Venezuelan Military Intelligence Chief</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ CHARGES (USA):</div>
+                        <ul class="crimes-list">
+                            <li>Narcoterrorism (Guilty plea)</li>
+                            <li>Drug Trafficking</li>
+                            <li>Arms Trafficking</li>
+                            <li>Cartel de los Soles member</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 TESTIMONY:</div>
+                        <p>• Claims Maduro gave Zapatero a gold mine in Orinoco basin</p>
+                        <p>• Extradited to USA in 2023</p>
+                        <p>• Cooperating with US authorities</p>
+                        <p>• Connected to FARC and cocaine trafficking</p>
+                        <p>• Key link to Venezuelan gold operations</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">Nicolás Maduro</span>
+                        <span class="connection-tag">Zapatero</span>
+                        <span class="connection-tag">Gold trafficking</span>
+                        <span class="connection-tag">FARC</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAURA & ALBA ZAPATERO -->
+            <div class="suspect-card">
+                <div class="stamp">INVESTIGATED</div>
+                <div class="photo-container">
+                    <img src="https://image.qwenlm.ai/public_source/efe16d61-a45d-4bc0-883e-c315d6b1f318/154cca0e0-4efc-4145-bd29-09f2a38c5e691274.png" 
+                         alt="Laura and Alba Zapatero" class="suspect-photo">
+                </div>
+                <div class="suspect-info">
+                    <h2 class="suspect-name">Laura & Alba Zapatero</h2>
+                    <div class="role">Daughters of J.L. Rodríguez Zapatero<br>Owners: What The Fav Agency</div>
+                    
+                    <div class="money-box">€1.9 MILLION ALLEGED RECEIVED</div>
+                    
+                    <div class="section">
+                        <div class="section-title">⚖️ INVESTIGATED FOR:</div>
+                        <ul class="crimes-list">
+                            <li>Money Laundering</li>
+                            <li>Tax Fraud</li>
+                            <li>Illicit Enrichment</li>
+                            <li>Participation in Criminal Organization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box">
+                        <div class="evidence-title">🔎 KEY EVIDENCE:</div>
+                        <p>• Company What The Fav received commissions</p>
+                        <p>• Contracts with Huawei</p>
+                        <p>• "Revolutionary tax" on Plus Ultra deal</p>
+                        <p>• Payments for minimal/no work performed</p>
+                        <p>• Bank accounts partially blocked</p>
+                        <p>• Police raided their offices May 19, 2026</p>
+                    </div>
+                    
+                    <div class="connections">
+                        <span class="connection-tag">J.L. Rodríguez Zapatero</span>
+                        <span class="connection-tag">Julio Martínez</span>
+                        <span class="connection-tag">Venezuela business</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCHEME DIAGRAM -->
+        <div class="scheme-section">
+            <h2>🕸️ CRIMINAL NETWORK SCHEME</h2>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <strong>STEP 1:</strong> Plus Ultra Airlines (Julio Martínez & Roberto Roselli) needs €53M bailout to avoid bankruptcy
+                </div>
+                <div class="flow-step">
+                    <strong>STEP 2:</strong> Contact intermediaries (Koldo García → Miguel Palomero) to access political influence
+                </div>
+                <div class="flow-step">
+                    <strong>STEP 3:</strong> Approach José Luis Ábalos (Transport Minister) OR Zapatero directly for government intervention
+                </div>
+                <div class="flow-step">
+                    <strong>STEP 4:</strong> Zapatero uses political influence to secure €53 million government bailout
+                </div>
+                <div class="flow-step">
+                    <strong>STEP 5:</strong> 1% commission (€641,300) paid to shell company (Idella/Dubai structures)
+                </div>
+                <div class="flow-step">
+                    <strong>STEP 6:</strong> Money distributed to Zapatero (€1.9M total) & daughters via What The Fav agency
+                </div>
+                <div class="flow-step">
+                    <strong>PARALLEL OPERATION:</strong> Venezuelan gold trafficking (5-8 tons) → UAE → Zapatero gold mine in Orinoco basin
+                </div>
+                <div class="flow-step">
+                    <strong>MONEY LAUNDERING:</strong> Jewelry, watches, Miami accounts, offshore companies, personal use of funds
+                </div>
+            </div>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="timeline">
+            <h2>📅 INVESTIGATION TIMELINE</h2>
+            <div class="timeline-item">
+                <div class="timeline-date">2020-2021</div>
+                <p>Plus Ultra Airlines receives €53 million public bailout during COVID-19 pandemic</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">December 11, 2025</div>
+                <p>Julio Martínez and Roberto Roselli arrested in Plus Ultra operation</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Early 2026</div>
+                <p>José Luis Ábalos imprisoned for mask scandal; from prison implicates Zapatero in Plus Ultra</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">May 19, 2026</div>
+                <p>Police raid What The Fav offices; Laura and Alba Zapatero investigated</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">June 17-18, 2026</div>
+                <p>José Luis Rodríguez Zapatero scheduled to testify before Judge José Luis Calama</p>
+            </div>
+        </div>
+
+        <!-- FINANCIAL FLOW -->
+        <div class="overview">
+            <h2>💰 FINANCIAL FLOW ANALYSIS</h2>
+            <p><strong>Total Bailout:</strong> €53,000,000 (Public funds)</p>
+            <p><strong>Alleged Commissions:</strong> €1,900,000 (To Zapatero and daughters)</p>
+            <p><strong>1% Contract:</strong> €641,300 (Through Idella shell company)</p>
+            <p><strong>Unexplained Expenses (Ábalos):</strong> €95,000</p>
+            <p><strong>Jewelry in Safe:</strong> €30,000-50,000</p>
+            <p><strong>Venezuelan Gold:</strong> 5-8 tons (Value: ~$300-500 million)</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h2>⚖️ CASE STATUS: ACTIVE INVESTIGATION ⚖️</h2>
+        <p style="font-size: 1.3em; margin: 20px 0;">
+            Next Hearing: June 17-18, 2026<br>
+            José Luis Rodríguez Zapatero Testimony
+        </p>
+        <p style="margin-top: 20px; font-size: 1em; opacity: 0.9;">
+            This investigation board is based on public judicial records, UDEF police reports, 
+            and media sources as of June 2026
+        </p>
+        <p style="margin-top: 15px; font-size: 0.9em;">
+            All individuals are presumed innocent until proven guilty in a court of law
+        </p>
+    </div>
+
+    <script>
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.suspect-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'all 0.6s ease-out';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
