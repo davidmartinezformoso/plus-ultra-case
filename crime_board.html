@@ -336,73 +336,10 @@ line-height: 1.4;
 }
 .csection-inv .csection-title { color: #888; }
 
-/* ── MOBILE ──────────────────────────────────────── */
-@media (max-width: 860px) {
-  .header {
-    font-size: 18px;
-    letter-spacing: 3px;
-    padding: 14px 60px 10px;
-  }
+/* ── MOBILE HEADER ───────────────────────────────── */
+@media (max-width: 600px) {
+  .header { font-size: 16px; letter-spacing: 3px; padding: 14px 50px 10px; }
   .header .sub { font-size: 9px; letter-spacing: 2px; }
-
-  .board-wrapper { padding: 8px; overflow: visible; }
-
-  .board {
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 10px;
-    background-image: none;
-    box-shadow: none;
-  }
-
-  /* Hide desktop-only elements */
-  .strings-layer,
-  .note,
-  .label-box { display: none !important; }
-
-  /* Stat banner: full-width row at top, scrollable */
-  #stat-banner {
-    position: static !important;
-    top: auto !important;
-    left: auto !important;
-    width: 100% !important;
-    grid-column: 1 / -1;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 0;
-    box-shadow: none !important;
-  }
-
-  /* Cards: flow in grid */
-  .card,
-  .suspect,
-  .suspect-main,
-  .evidence {
-    position: static !important;
-    width: 100% !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-  }
-  .card:hover { transform: none !important; }
-
-  /* References */
-  .references {
-    width: 100%;
-    margin: 8px 0 20px;
-    padding: 16px;
-  }
-  .ref-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 480px) {
-  .board { grid-template-columns: 1fr; }
-  .header { font-size: 14px; letter-spacing: 2px; padding: 12px 55px 8px; }
 }
 
 /* ── BOTTOM NAV (mobile only) ────────────────────── */
@@ -448,7 +385,18 @@ line-height: 1.4;
 
 <div class="header">
 OPERATION PLUS ULTRA — EVIDENCE BOARD
-<a href="about.html" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#888;font-family:Inter,sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;border:1px solid #444;padding:4px 10px;">ℹ ABOUT</a>
+<div id="menuBtn" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#aaa;font-size:22px;cursor:pointer;padding:4px 10px;line-height:1;user-select:none;" onclick="toggleMenu()">⋮</div>
+<div id="dropdownMenu" style="display:none;position:absolute;right:16px;top:calc(100% + 4px);background:#111;border:1px solid #333;min-width:180px;z-index:500;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:1px;">
+  <a href="about.html" style="display:block;padding:11px 16px;color:#ccc;text-decoration:none;border-bottom:1px solid #222;text-transform:uppercase;">ℹ&nbsp; About</a>
+  <div style="padding:11px 16px;color:#ccc;text-transform:uppercase;border-bottom:1px solid #222;cursor:default;">
+    📁&nbsp; Cases
+    <div style="padding-top:8px;padding-left:12px;">
+      <a href="#" style="display:block;padding:5px 0;color:#7aaaff;text-decoration:none;font-size:11px;letter-spacing:0.5px;">→ Operation Plus Ultra</a>
+    </div>
+  </div>
+  <a href="#" style="display:block;padding:11px 16px;color:#555;text-decoration:none;text-transform:uppercase;border-bottom:1px solid #222;cursor:not-allowed;">⬜&nbsp; Coming Soon</a>
+  <a href="#" style="display:block;padding:11px 16px;color:#555;text-decoration:none;text-transform:uppercase;cursor:not-allowed;">⬜&nbsp; Coming Soon</a>
+</div>
 <div class="sub">ACTIVE CASE · 2026 · SPAIN · MONEY LAUNDERING</div>
 </div>
 
@@ -934,7 +882,6 @@ return { x: er.left - br.left + er.width / 2, y: er.top - br.top + er.height / 2
 }
 
 function drawStrings() {
-if (window.innerWidth <= 860) return;
 const svg = document.getElementById('svgLayer');
 const board = document.getElementById('board');
 if (!svg || !board) return;
@@ -966,7 +913,6 @@ while (el.scrollWidth > el.offsetWidth + 1 && size > 7) { size -= 0.25; el.style
 }
 
 function adjustBoardHeight() {
-if (window.innerWidth <= 860) return;
 const board = document.getElementById('board');
 if (!board) return;
 const boardRect = board.getBoundingClientRect();
@@ -979,16 +925,19 @@ if (bottom > maxBottom) maxBottom = bottom;
 if (maxBottom > 50) board.style.height = (maxBottom + 28) + 'px';
 }
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    if (window.innerWidth <= 860) {
-      const board = document.getElementById('board');
-      if (board) board.style.height = '';
-    }
-    fitHeadings(); adjustBoardHeight(); drawStrings();
-  }, 200);
-});
+window.addEventListener('load', () => { setTimeout(() => { fitHeadings(); adjustBoardHeight(); drawStrings(); }, 200); });
 window.addEventListener('resize', () => { adjustBoardHeight(); drawStrings(); });
+
+function toggleMenu() {
+  const m = document.getElementById('dropdownMenu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#menuBtn') && !e.target.closest('#dropdownMenu')) {
+    const m = document.getElementById('dropdownMenu');
+    if (m) m.style.display = 'none';
+  }
+});
 </script>
 
 <nav class="bottom-nav">
