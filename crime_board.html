@@ -97,7 +97,7 @@ transform: scale(1.03) !important;
 width: 100%;
 height: 130px;
 overflow: hidden;
-background: #555;
+background: #aaa;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -106,17 +106,10 @@ position: relative;
 .photo-box img {
 width: 100%;
 height: 100%;
-object-fit: contain;
-object-position: center top;
+object-fit: cover;
+object-position: center 5%;
 filter: grayscale(100%) contrast(110%);
 display: block;
-background: #555;
-}
-
-/* ── PORTRAIT FACE ZOOM ─────────────────────────── */
-.suspect .photo-box img,
-.suspect-main .photo-box img {
-object-position: center top;
 }
 .photo-box .fallback-svg { width: 70px; height: 70px; opacity: 0.3; }
 
