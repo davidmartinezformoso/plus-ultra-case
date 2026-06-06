@@ -111,6 +111,15 @@ object-position: center top;
 filter: grayscale(100%) contrast(110%);
 display: block;
 }
+
+/* Person portraits: zoom and anchor top so only face shows */
+.suspect .photo-box img,
+.suspect-main .photo-box img {
+object-fit: cover;
+object-position: center top;
+transform: scale(1.9);
+transform-origin: top center;
+}
 .photo-box .fallback-svg { width: 70px; height: 70px; opacity: 0.3; }
 
 /* ── TEXT ────────────────────────────────────────── */
