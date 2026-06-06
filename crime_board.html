@@ -12,1048 +12,872 @@
 <meta name="robots" content="index, follow">
 <title>OPERACIÓN PLUS ULTRA — Evidence Board</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    background: #0a0a0a;
-    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-    overflow-x: auto;
-    color: #111;
-  }
+body {
+background: #0a0a0a;
+font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+overflow-x: auto;
+color: #111;
+}
 
-  /* ── HEADER ─────────────────────────────────────── */
-  .header {
-    background: #000;
-    color: #fff;
-    text-align: center;
-    padding: 18px 20px 12px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 6px;
-    border-bottom: 2px solid #444;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header .sub {
-    font-size: 11px;
-    color: #888;
-    letter-spacing: 3px;
-    margin-top: 4px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-  }
+/* ── HEADER ─────────────────────────────────────── */
+.header {
+background: #000;
+color: #fff;
+text-align: center;
+padding: 18px 20px 12px;
+font-family: 'Bebas Neue', sans-serif;
+font-size: 32px;
+letter-spacing: 6px;
+border-bottom: 2px solid #444;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+.header .sub {
+font-size: 11px;
+color: #888;
+letter-spacing: 3px;
+margin-top: 4px;
+font-family: 'Inter', sans-serif;
+font-weight: 500;
+}
 
-  /* ── BOARD ───────────────────────────────────────── */
-  .board-wrapper { overflow: auto; padding: 20px; }
+/* ── BOARD ───────────────────────────────────────── */
+.board-wrapper { overflow: auto; padding: 20px; }
 
-  .board {
-    position: relative;
-    width: 1380px;
-    height: 960px;
-    background: #1a1a1a;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 29px, rgba(255,255,255,0.03) 29px, rgba(255,255,255,0.03) 30px),
-      repeating-linear-gradient(90deg, transparent, transparent 29px, rgba(255,255,255,0.03) 29px, rgba(255,255,255,0.03) 30px);
-    margin: 0 auto;
-    box-shadow: 0 0 40px rgba(0,0,0,0.9);
-  }
+.board {
+position: relative;
+width: 1380px;
+height: 960px;
+background: #1a1a1a;
+background-image:
+repeating-linear-gradient(0deg, transparent, transparent 29px, rgba(255,255,255,0.03) 29px, rgba(255,255,255,0.03) 30px),
+repeating-linear-gradient(90deg, transparent, transparent 29px, rgba(255,255,255,0.03) 29px, rgba(255,255,255,0.03) 30px);
+margin: 0 auto;
+box-shadow: 0 0 40px rgba(0,0,0,0.9);
+}
 
-  .strings-layer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
+.strings-layer {
+position: absolute;
+inset: 0;
+pointer-events: none;
+z-index: 1;
+}
 
-  /* ── CARDS ─────────────────────────────────────── */
-  .card {
-    position: absolute;
-    z-index: 2;
-    background: #fff;
-    box-shadow: 3px 5px 20px rgba(0,0,0,0.7);
-    cursor: default;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .card:hover {
-    z-index: 20;
-    box-shadow: 6px 10px 32px rgba(0,0,0,0.9);
-    transform: scale(1.03) !important;
-  }
+/* ── CARDS ─────────────────────────────────────── */
+.card {
+position: absolute;
+z-index: 2;
+background: #fff;
+box-shadow: 3px 5px 20px rgba(0,0,0,0.7);
+cursor: default;
+transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover {
+z-index: 20;
+box-shadow: 6px 10px 32px rgba(0,0,0,0.9);
+transform: scale(1.03) !important;
+}
 
-  .card-inner { padding: 0 0 8px; }
-  .card-inner .cname,
-  .card-inner .ctitle,
-  .card-inner .ccrime,
-  .card-inner .csources { padding-left: 8px; padding-right: 8px; }
+.card-inner { padding: 0 0 8px; }
+.card-inner .cname,
+.card-inner .ctitle,
+.card-inner .csources { padding-left: 8px; padding-right: 8px; }
 
-  .suspect       { width: 172px; }
-  .suspect-main  { width: 172px; border-top: 3px solid #111; }
-  .evidence      { width: 172px; background: #f5f5f5; }
+.suspect { width: 172px; }
+.suspect-main { width: 172px; border-top: 3px solid #111; }
+.evidence { width: 172px; background: #f5f5f5; }
 
-  /* ── PHOTOS ──────────────────────────────────────── */
-  .photo-box {
-    width: 100%;
-    height: 120px;
-    overflow: hidden;
-    background: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .photo-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
-    filter: grayscale(100%) contrast(110%);
-    display: block;
-  }
+/* ── PHOTOS ──────────────────────────────────────── */
+.photo-box {
+width: 100%;
+height: 120px;
+overflow: hidden;
+background: #ccc;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+}
+.photo-box img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+object-position: center 20%;
+filter: grayscale(100%) contrast(110%);
+display: block;
+}
 
-  /* ── PORTRAIT FACE ZOOM ─────────────────────────── */
-  .suspect .photo-box img,
-  .suspect-main .photo-box img {
-    transform: scale(1.45);
-    transform-origin: center 28%;
-  }
-  .photo-box .fallback-svg { width: 70px; height: 70px; opacity: 0.3; }
+/* ── PORTRAIT FACE ZOOM ─────────────────────────── */
+.suspect .photo-box img,
+.suspect-main .photo-box img {
+transform: scale(1.45);
+transform-origin: center 28%;
+}
+.photo-box .fallback-svg { width: 70px; height: 70px; opacity: 0.3; }
 
-  /* ── TEXT ────────────────────────────────────────── */
-  .cname {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 6px;
-    color: #000;
-    text-align: center;
-    line-height: 1.25;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .ctitle {
-    font-size: 11px;
-    color: #555;
-    text-align: center;
-    margin-top: 2px;
-    font-style: italic;
-    font-weight: 400;
-  }
-  .ccrime {
-    font-size: 10.5px;
-    color: #222;
-    margin-top: 6px;
-    padding-top: 5px;
-    border-top: 1px solid #ddd;
-    line-height: 1.5;
-  }
+/* ── TEXT ────────────────────────────────────────── */
+.cname {
+font-size: 13px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-top: 6px;
+color: #000;
+text-align: center;
+line-height: 1.25;
+white-space: nowrap;
+overflow: hidden;
+}
+.ctitle {
+font-size: 11px;
+color: #555;
+text-align: center;
+margin-top: 2px;
+font-style: italic;
+font-weight: 400;
+}
 
-  /* ── SOURCE LINKS ───────────────────────────────── */
-  .csources {
-    margin-top: 6px;
-    padding-top: 5px;
-    border-top: 1px dashed #ccc;
-    font-size: 10px;
-    line-height: 1.7;
-    color: #777;
-  }
-  .csources a {
-    color: #1a1aff;
-    text-decoration: none;
-    margin-right: 2px;
-    font-weight: 600;
-  }
-  .csources a:hover { text-decoration: underline; }
+/* ── SOURCE LINKS ───────────────────────────────── */
+.csources {
+margin-top: 6px;
+padding-top: 5px;
+border-top: 1px dashed #ccc;
+font-size: 10px;
+line-height: 1.7;
+color: #777;
+}
+.csources a {
+color: #1a1aff;
+text-decoration: none;
+margin-right: 2px;
+font-weight: 600;
+}
+.csources a:hover { text-decoration: underline; }
 
-  /* ── PINS ───────────────────────────────────────── */
-  .pin {
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    z-index: 5;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.7);
-  }
-  .pin-red    { background: radial-gradient(circle at 38% 35%, #fff, #555); }
-  .pin-yellow { background: radial-gradient(circle at 38% 35%, #fff, #333); }
-  .pin-blue   { background: radial-gradient(circle at 38% 35%, #fff, #444); }
-  .pin-white  { background: radial-gradient(circle at 38% 35%, #fff, #999); }
+/* ── PINS ───────────────────────────────────────── */
+.pin {
+position: absolute;
+top: -8px;
+left: 50%;
+transform: translateX(-50%);
+width: 14px; height: 14px;
+border-radius: 50%;
+z-index: 5;
+box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+.pin-red { background: radial-gradient(circle at 38% 35%, #fff, #555); }
+.pin-yellow { background: radial-gradient(circle at 38% 35%, #fff, #333); }
+.pin-blue { background: radial-gradient(circle at 38% 35%, #fff, #444); }
+.pin-white { background: radial-gradient(circle at 38% 35%, #fff, #999); }
 
-  /* ── STAMPS ─────────────────────────────────────── */
-  .stamp {
-    position: absolute;
-    bottom: 28px; right: 6px;
-    border: 2px solid #000;
-    color: #000;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 9px;
-    padding: 2px 5px;
-    letter-spacing: 2px;
-    transform: rotate(-14deg);
-    opacity: 0.6;
-  }
-  .stamp-green { border-color: #333; color: #333; }
+/* ── STAMPS ─────────────────────────────────────── */
+.stamp {
+position: absolute;
+bottom: 28px; right: 6px;
+border: 2px solid #000;
+color: #000;
+font-family: 'Bebas Neue', sans-serif;
+font-size: 9px;
+padding: 2px 5px;
+letter-spacing: 2px;
+transform: rotate(-14deg);
+opacity: 0.6;
+}
+.stamp-green { border-color: #333; color: #333; }
 
-  /* ── STICKY NOTES ───────────────────────────────── */
-  .note {
-    position: absolute;
-    background: #ececec;
-    padding: 7px 9px;
-    font-size: 11px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    box-shadow: 2px 3px 10px rgba(0,0,0,0.5);
-    max-width: 140px;
-    line-height: 1.5;
-    color: #111;
-    z-index: 3;
-  }
-  .note::before {
-    content: '';
-    position: absolute;
-    top: -2px; left: 50%;
-    transform: translateX(-50%);
-    width: 30px; height: 5px;
-    background: rgba(0,0,0,0.2);
-  }
+/* ── STICKY NOTES ───────────────────────────────── */
+.note {
+position: absolute;
+background: #ececec;
+padding: 7px 9px;
+font-size: 11px;
+font-family: 'Inter', sans-serif;
+font-weight: 500;
+box-shadow: 2px 3px 10px rgba(0,0,0,0.5);
+max-width: 140px;
+line-height: 1.5;
+color: #111;
+z-index: 3;
+}
+.note::before {
+content: '';
+position: absolute;
+top: -2px; left: 50%;
+transform: translateX(-50%);
+width: 30px; height: 5px;
+background: rgba(0,0,0,0.2);
+}
 
-  /* ── SECTION LABELS ─────────────────────────────── */
-  .label-box {
-    position: absolute;
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 12px;
-    letter-spacing: 3px;
-    padding: 4px 10px;
-    z-index: 3;
-  }
+/* ── SECTION LABELS ─────────────────────────────── */
+.label-box {
+position: absolute;
+background: rgba(0,0,0,0.85);
+color: #fff;
+font-family: 'Bebas Neue', sans-serif;
+font-size: 12px;
+letter-spacing: 3px;
+padding: 4px 10px;
+z-index: 3;
+}
 
-  /* ── CASE FILE ──────────────────────────────────── */
-  .case-file {
-    position: absolute;
-    background: #fff;
-    padding: 10px 12px;
-    font-size: 10px;
-    line-height: 1.7;
-    color: #111;
-    z-index: 3;
-    width: 200px;
-    box-shadow: 3px 4px 14px rgba(0,0,0,0.6);
-    transform: rotate(1deg);
-    border-top: 3px solid #000;
-  }
-  .case-file h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
-    letter-spacing: 2px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 4px;
-    margin-bottom: 6px;
-    color: #000;
-  }
+/* ── CASE FILE ──────────────────────────────────── */
+.case-file {
+position: absolute;
+background: #fff;
+padding: 10px 12px;
+font-size: 10px;
+line-height: 1.7;
+color: #111;
+z-index: 3;
+width: 200px;
+box-shadow: 3px 4px 14px rgba(0,0,0,0.6);
+transform: rotate(1deg);
+border-top: 3px solid #000;
+}
+.case-file h3 {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 13px;
+letter-spacing: 2px;
+border-bottom: 1px solid #ddd;
+padding-bottom: 4px;
+margin-bottom: 6px;
+color: #000;
+}
 
-  /* ── REFERENCES / FOOTNOTES ──────────────────────── */
-  .references {
-    width: 1380px;
-    margin: 16px auto 40px;
-    background: #111;
-    padding: 20px 28px;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: #ccc;
-    line-height: 1.9;
-  }
-  .references h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    color: #fff;
-    letter-spacing: 4px;
-    margin-bottom: 14px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 8px;
-  }
-  .references a {
-    color: #7aaaff;
-    text-decoration: none;
-  }
-  .references a:hover { text-decoration: underline; color: #aaccff; }
-  .ref-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 32px;
-  }
-  .ref-item { display: flex; gap: 8px; align-items: baseline; }
-  .ref-num {
-    color: #fff;
-    font-weight: 700;
-    font-size: 11px;
-    min-width: 24px;
-    flex-shrink: 0;
-  }
+/* ── REFERENCES / FOOTNOTES ──────────────────────── */
+.references {
+width: 1380px;
+margin: 16px auto 40px;
+background: #111;
+padding: 20px 28px;
+font-family: 'Inter', sans-serif;
+font-size: 12px;
+color: #ccc;
+line-height: 1.9;
+}
+.references h2 {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 18px;
+color: #fff;
+letter-spacing: 4px;
+margin-bottom: 14px;
+border-bottom: 1px solid #333;
+padding-bottom: 8px;
+}
+.references a {
+color: #7aaaff;
+text-decoration: none;
+}
+.references a:hover { text-decoration: underline; color: #aaccff; }
+.ref-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 4px 32px;
+}
+.ref-item { display: flex; gap: 8px; align-items: baseline; }
+.ref-num {
+color: #fff;
+font-weight: 700;
+font-size: 11px;
+min-width: 24px;
+flex-shrink: 0;
+}
 
-  /* ── STATS ROW ──────────────────────────────────── */
-  .cstats {
-    display: flex;
-    border-top: 1px solid #ebebeb;
-    border-bottom: 1px solid #ebebeb;
-    margin-top: 5px;
-    background: #f7f7f7;
-  }
-  .cstats .stat {
-    flex: 1;
-    text-align: center;
-    padding: 4px 2px;
-    border-right: 1px solid #ebebeb;
-    overflow: hidden;
-  }
-  .cstats .stat:last-child { border-right: none; }
-  .cstats .stat strong {
-    display: block;
-    font-size: 9px;
-    font-weight: 700;
-    color: #000;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .cstats .stat span {
-    display: block;
-    font-size: 7px;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
+/* ── STATS ROW ──────────────────────────────────── */
+.cstats {
+display: flex;
+border-top: 1px solid #ebebeb;
+border-bottom: 1px solid #ebebeb;
+margin-top: 3px;
+background: #f7f7f7;
+}
+.cstats .stat {
+flex: 1;
+text-align: center;
+padding: 2px 2px;
+border-right: 1px solid #ebebeb;
+overflow: hidden;
+}
+.cstats .stat:last-child { border-right: none; }
+.cstats .stat strong {
+display: block;
+font-size: 9px;
+font-weight: 700;
+color: #000;
+line-height: 1.2;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.cstats .stat span {
+display: block;
+font-size: 7px;
+color: #999;
+text-transform: uppercase;
+letter-spacing: 0.3px;
+}
 
-  /* ── KNOW / INVESTIGATING ────────────────────────── */
-  .csection {
-    margin-top: 4px;
-    padding: 0 8px;
-  }
-  .csection-title {
-    font-size: 8.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #bbb;
-    margin-bottom: 2px;
-  }
-  .csection-body {
-    font-size: 10px;
-    color: #333;
-    line-height: 1.4;
-  }
-  .csection-inv .csection-title { color: #888; }
+/* ── KNOW / INVESTIGATING ────────────────────────── */
+.csection {
+margin-top: 3px;
+padding: 0 8px;
+}
+.csection-title {
+font-size: 8.5px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.8px;
+color: #bbb;
+margin-bottom: 2px;
+}
+.csection-body {
+font-size: 10px;
+color: #333;
+line-height: 1.4;
+}
+.csection-inv .csection-title { color: #888; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  ⚠ &nbsp; OPERACIÓN PLUS ULTRA — EVIDENCE BOARD &nbsp; ⚠
-  <a href="about.html" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#888;font-family:Inter,sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;border:1px solid #444;padding:4px 10px;">ℹ ABOUT</a>
-  <div class="sub">ACTIVE CASE · 2026 · SPAIN · MONEY LAUNDERING</div>
+OPERACIÓN PLUS ULTRA — EVIDENCE BOARD
+<a href="about.html" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#888;font-family:Inter,sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;border:1px solid #444;padding:4px 10px;">ℹ ABOUT</a>
+<div class="sub">ACTIVE CASE · 2026 · SPAIN · MONEY LAUNDERING</div>
 </div>
 
 <div class="board-wrapper">
 <div class="board" id="board">
 
-  <!-- SVG strings layer -->
-  <svg class="strings-layer" id="svgLayer"></svg>
+<!-- SVG strings layer -->
+<svg class="strings-layer" id="svgLayer"></svg>
 
-  <!-- ── SECTION LABELS ── -->
-  <div class="label-box" style="top:493px; left:14px; color:#aaa;">▶ EVIDENCE / ASSETS</div>
+<!-- ── SECTION LABELS ── -->
+<div class="label-box" style="top:493px; left:14px; color:#aaa;">▶ EVIDENCE / ASSETS</div>
 
-  <!-- ════════════════════════════
-       SUSPECTS
-  ════════════════════════════ -->
+<!-- 1. ZAPATERO -->
+<div class="card suspect-main" id="c_zapatero" style="top:100px; left:604px;">
+<div class="pin pin-red"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero_en_el_III_Foro_Mundial_de_Derechos_Humanos_2023_%28cropped%29.jpg/250px-Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero_en_el_III_Foro_Mundial_de_Derechos_Humanos_2023_%28cropped%29.jpg" alt="Zapatero" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/></svg>
+</div>
+<div class="cname">José Luis R. Zapatero</div>
+<div class="ctitle">Former PM of Spain (2004–2011)</div>
+<div class="cstats">
+<div class="stat"><strong>€2.6M</strong><span>Benefits</span></div>
+<div class="stat"><strong>174</strong><span>Transfers</span></div>
+<div class="stat"><strong>€490K</strong><span>Frozen</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">€2.6M via 174 bank transfers (2020–2025). Hidden safe found with jewels, watches & gold bar photos. €490K frozen by court.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Who paid daughters? Venezuelan gold mine rights confirmed?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.irishtimes.com/world/europe/2026/05/25/inquiry-into-former-spanish-prime-minister-leaves-government-reeling/" target="_blank">[11]</a></div>
+</div>
+<div class="stamp">IMPUTADO</div>
+</div>
 
-  <!-- 1. ZAPATERO — main suspect, center-top -->
-  <div class="card suspect-main" id="c_zapatero" style="top:100px; left:604px;">
-    <div class="pin pin-red"></div>
-    <div class="card-inner">
-      <div class="photo-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero_en_el_III_Foro_Mundial_de_Derechos_Humanos_2023_%28cropped%29.jpg/250px-Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero_en_el_III_Foro_Mundial_de_Derechos_Humanos_2023_%28cropped%29.jpg"
-             alt="Zapatero"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/>
-        </svg>
-      </div>
-      <div class="cname">José Luis R. Zapatero</div>
-      <div class="ctitle">Former PM of Spain (2004–2011)</div>
-      <div class="ccrime">
-        ▸ €2.6M benefits — 174 traced bank transfers (2020–2025)<br>
-        ▸ €490K frozen by court · hidden safe raided by UDEF<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€2.6M</strong><span>Benefits</span></div>
-        <div class="stat"><strong>174</strong><span>Transfers</span></div>
-        <div class="stat"><strong>€490K</strong><span>Frozen</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">Hidden safe found in office with jewels, watches & gold bar photos. €490K frozen.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Who paid daughters? Venezuelan gold mine rights confirmed?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.irishtimes.com/world/europe/2026/05/25/inquiry-into-former-spanish-prime-minister-leaves-government-reeling/" target="_blank">[11]</a></div>
-    </div>
-    <div class="stamp">IMPUTADO</div>
-  </div>
+<!-- 2. DELCY RODRÍGUEZ -->
+<div class="card suspect" id="c_delcy" style="top:100px; left:992px;">
+<div class="pin pin-red"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Delcy_Rodr%C3%ADguez_-_02_%2819-01-2026%29_%28cropped_2%29.jpg/250px-Delcy_Rodr%C3%ADguez_-_02_%2819-01-2026%29_%28cropped_2%29.jpg" alt="Delcy Rodriguez" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/></svg>
+</div>
+<div class="cname">Delcy Rodríguez</div>
+<div class="ctitle">VP of Venezuela — "La Dama"</div>
+<div class="cstats">
+<div class="stat"><strong>Sanctioned</strong><span>US + EU</span></div>
+<div class="stat"><strong>$1B+</strong><span>Alleged</span></div>
+<div class="stat"><strong>2024</strong><span>Sanctions</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">Coded alias "La Dama" in WhatsApp evidence. Met Ábalos at 1am at Madrid airport violating EU sanctions.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Full scope of Spanish company laundering network.</div>
+</div>
+<div class="csources">SOURCES: <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">[12]</a></div>
+</div>
+<div class="stamp">WANTED</div>
+</div>
 
-  <!-- 2. DELCY RODRÍGUEZ — top right -->
-  <div class="card suspect" id="c_delcy" style="top:100px; left:992px;">
-    <div class="pin pin-red"></div>
-    <div class="card-inner">
-      <div class="photo-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Delcy_Rodr%C3%ADguez_-_02_%2819-01-2026%29_%28cropped_2%29.jpg/250px-Delcy_Rodr%C3%ADguez_-_02_%2819-01-2026%29_%28cropped_2%29.jpg"
-             alt="Delcy Rodriguez"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/>
-        </svg>
-      </div>
-      <div class="cname">Delcy Rodríguez</div>
-      <div class="ctitle">VP of Venezuela — "La Dama"</div>
-      <div class="ccrime">
-        ▸ "La Dama" — coded alias in WhatsApp evidence<br>
-        ▸ Secret 1am Madrid airport meeting · US & EU sanctioned<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>Sanctioned</strong><span>US + EU</span></div>
-        <div class="stat"><strong>$1B+</strong><span>Alleged</span></div>
-        <div class="stat"><strong>2024</strong><span>Sanctions</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">Alias "La Dama." Met Ábalos at 1am in Madrid airport violating EU sanctions.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Full scope of Spanish company laundering network.</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">[12]</a></div>
-    </div>
-    <div class="stamp">WANTED</div>
-  </div>
+<!-- 3. NICOLÁS MADURO -->
+<div class="card suspect" id="c_maduro" style="top:100px; left:1186px;">
+<div class="pin pin-red"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Nicol%C3%A1s_Maduro_in_2023_%28cropped%29.jpg/250px-Nicol%C3%A1s_Maduro_in_2023_%28cropped%29.jpg" alt="Maduro" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/></svg>
+</div>
+<div class="cname">Nicolás Maduro</div>
+<div class="ctitle">President of Venezuela</div>
+<div class="cstats">
+<div class="stat"><strong>Indicted</strong><span>US 2020</span></div>
+<div class="stat"><strong>8 tonnes</strong><span>Gold</span></div>
+<div class="stat"><strong>$15B</strong><span>Drug network</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">US DoJ narco-terrorism indictment (2020). 8 tonnes of Venezuelan gold linked to this case.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Gold smuggling via UAE & China. CLAP funds in European accounts.</div>
+</div>
+<div class="csources">SOURCES: <a href="https://www.washingtonexaminer.com/op-eds/4579365/spain-zapatero-exposed-maduro-fixer-trump-must-extradite/" target="_blank">[13]</a> <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a></div>
+</div>
+<div class="stamp">INDICTED</div>
+</div>
 
-  <!-- 3. NICOLÁS MADURO — far right -->
-  <div class="card suspect" id="c_maduro" style="top:100px; left:1186px;">
-    <div class="pin pin-red"></div>
-    <div class="card-inner">
-      <div class="photo-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Nicol%C3%A1s_Maduro_in_2023_%28cropped%29.jpg/250px-Nicol%C3%A1s_Maduro_in_2023_%28cropped%29.jpg"
-             alt="Maduro"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/>
-        </svg>
-      </div>
-      <div class="cname">Nicolás Maduro</div>
-      <div class="ctitle">President of Venezuela</div>
-      <div class="ccrime">
-        ▸ US DoJ narco-terrorism indictment 2020<br>
-        ▸ 8 tonnes Venezuelan gold in this case<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>Indicted</strong><span>US 2020</span></div>
-        <div class="stat"><strong>8 tonnes</strong><span>Gold</span></div>
-        <div class="stat"><strong>$15B</strong><span>Drug network</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">US indicted for narco-terrorism. 8 tonnes of Venezuelan gold in investigation.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Gold smuggling network via UAE & China. CLAP funds in European accounts.</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://www.washingtonexaminer.com/op-eds/4579365/spain-zapatero-exposed-maduro-fixer-trump-must-extradite/" target="_blank">[13]</a> <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a></div>
-    </div>
-    <div class="stamp">INDICTED</div>
-  </div>
+<!-- 4. ÁBALOS -->
+<div class="card suspect" id="c_abalos" style="top:100px; left:22px;">
+<div class="pin pin-yellow"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Jos%C3%A9_Luis_%C3%81balos_2020_%28cropped%29.jpg/250px-Jos%C3%A9_Luis_%C3%81balos_2020_%28cropped%29.jpg" alt="Ábalos" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/></svg>
+</div>
+<div class="cname">José Luis Ábalos</div>
+<div class="ctitle">Former Transport Minister</div>
+<div class="cstats">
+<div class="stat"><strong>€53M</strong><span>Approved</span></div>
+<div class="stat"><strong>1am</strong><span>Illegal meet</span></div>
+<div class="stat"><strong>2024</strong><span>Charged</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">Approved €53M Plus Ultra bailout. Held illegal 1am meeting with sanctioned Venezuelan VP at Madrid airport.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Was airport meeting a quid pro quo for the rescue?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">[14]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">[12]</a></div>
+</div>
+<div class="stamp">IMPUTADO</div>
+</div>
 
-  <!-- 4. ÁBALOS — left side -->
-  <div class="card suspect" id="c_abalos" style="top:100px; left:22px;">
-    <div class="pin pin-yellow"></div>
-    <div class="card-inner">
-      <div class="photo-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Jos%C3%A9_Luis_%C3%81balos_2020_%28cropped%29.jpg/250px-Jos%C3%A9_Luis_%C3%81balos_2020_%28cropped%29.jpg"
-             alt="Ábalos"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/>
-        </svg>
-      </div>
-      <div class="cname">José Luis Ábalos</div>
-      <div class="ctitle">Former Transport Minister</div>
-      <div class="ccrime">
-        ▸ Approved €53M Plus Ultra bailout as minister<br>
-        ▸ Illegal 1am meeting with sanctioned Venezuelan VP<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€53M</strong><span>Approved</span></div>
-        <div class="stat"><strong>1am</strong><span>Illegal meet</span></div>
-        <div class="stat"><strong>2024</strong><span>Charged</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">Approved bailout. Met sanctioned VP at 1am at Madrid airport.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Was airport meeting a quid pro quo for the rescue?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">[14]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">[12]</a></div>
-    </div>
-    <div class="stamp">IMPUTADO</div>
-  </div>
+<!-- 5. JULITO -->
+<div class="card suspect" id="c_julito" style="top:100px; left:798px;">
+<div class="pin pin-blue"></div>
+<div class="card-inner">
+<div class="photo-box" style="background:#6a6a6a;">
+<svg class="fallback-svg" style="display:flex; opacity:0.4;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#ccc"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#ccc"/></svg>
+</div>
+<div class="cname">Julio Martínez "Julito"</div>
+<div class="ctitle">Zapatero's Fixer / Plus Ultra VP</div>
+<div class="cstats">
+<div class="stat"><strong>Arrested</strong><span>2026</span></div>
+<div class="stat"><strong>VP</strong><span>Plus Ultra</span></div>
+<div class="stat"><strong>€2.6M</strong><span>Network</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">Zapatero's right-hand operative, arrested 2026. VP of Plus Ultra at time of €53M rescue.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Which payments did he channel through the network?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">[2]</a> <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a></div>
+</div>
+</div>
 
-  <!-- 5. JULIO MARTÍNEZ "JULITO" — center -->
-  <div class="card suspect" id="c_julito" style="top:100px; left:798px;">
-    <div class="pin pin-blue"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="background:#6a6a6a;">
-        <svg class="fallback-svg" style="display:flex; opacity:0.4;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#ccc"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#ccc"/>
-        </svg>
-      </div>
-      <div class="cname">Julio Martínez "Julito"</div>
-      <div class="ctitle">Zapatero's Fixer / Plus Ultra VP</div>
-      <div class="ccrime">
-        ▸ Zapatero’s right-hand operative · arrested 2026<br>
-        ▸ VP of Plus Ultra at time of €53M rescue<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>Arrested</strong><span>2026</span></div>
-        <div class="stat"><strong>VP</strong><span>Plus Ultra</span></div>
-        <div class="stat"><strong>€2.6M</strong><span>Network</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">VP at Plus Ultra during rescue. Closest Zapatero associate.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Which payments did he channel through the network?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">[2]</a> <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a></div>
-    </div>
-  </div>
+<!-- 6. RODOLFO REYES -->
+<div class="card suspect" id="c_reyes" style="top:100px; left:216px;">
+<div class="pin pin-blue"></div>
+<div class="card-inner">
+<div class="photo-box" style="background:#6a6a6a;">
+<svg class="fallback-svg" style="display:flex; opacity:0.4;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#ccc"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#ccc"/></svg>
+</div>
+<div class="cname">Rodolfo Reyes</div>
+<div class="ctitle">Plus Ultra Owner (former)</div>
+<div class="cstats">
+<div class="stat"><strong>€53M</strong><span>Airline front</span></div>
+<div class="stat"><strong>Luxury</strong><span>Properties</span></div>
+<div class="stat"><strong>Laundering</strong><span>Charge</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">"Delcy, call Ábalos" — key WhatsApp. Prosecutors add luxury property laundering charges.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Full property laundering network. PDVSA links.</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">[2]</a></div>
+</div>
+</div>
 
+<!-- 7. PEDRO SANCHEZ -->
+<div class="card suspect" id="c_sanchez" style="top:100px; left:410px;">
+<div class="pin pin-yellow"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Pedro_S%C3%A1nchez_in_2026.jpg/250px-Pedro_S%C3%A1nchez_in_2026.jpg" alt="Sanchez" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100"><circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/></svg>
+</div>
+<div class="cname">Pedro Sanchez</div>
+<div class="ctitle">PM Spain — Zapatero ally</div>
+<div class="cstats">
+<div class="stat"><strong>€53M</strong><span>Approved</span></div>
+<div class="stat"><strong>PM</strong><span>2018–</span></div>
+<div class="stat"><strong>Indirect</strong><span>Scrutiny</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">Cabinet approved €53M rescue (March 2021). Dismissed Ábalos only after Delcygate became public.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Prior knowledge of Zapatero dealings? Was dismissal a cover-up?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">[14]</a> <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a></div>
+</div>
+</div>
 
-  <!-- 6. RODOLFO REYES -->
-  <div class="card suspect" id="c_reyes" style="top:100px; left:216px;">
-    <div class="pin pin-blue"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="background:#6a6a6a;">
-        <svg class="fallback-svg" style="display:flex; opacity:0.4;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#ccc"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#ccc"/>
-        </svg>
-      </div>
-      <div class="cname">Rodolfo Reyes</div>
-      <div class="ctitle">Plus Ultra Owner (former)</div>
-      <div class="ccrime">
-        ▸ "Delcy, call Ábalos" — key WhatsApp message<br>
-        ▸ Prosecutors: laundered via Madrid luxury properties<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€53M</strong><span>Airline front</span></div>
-        <div class="stat"><strong>Luxury</strong><span>Properties</span></div>
-        <div class="stat"><strong>Laundering</strong><span>Charge</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">WhatsApp places him at centre of lobbying. Prosecutors add luxury property laundering.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Full property money laundering network. PDVSA links.</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">[2]</a></div>
-    </div>
-  </div>
+<!-- Plus Ultra Airline -->
+<div class="card evidence" id="c_plusultra" style="top:515px; left:410px;">
+<div class="pin pin-white"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/PU_PUE_Plus_Ultra_Lineas_Aereas_340_EC-MFB_%2848483030416%29.jpg/250px-PU_PUE_Plus_Ultra_Lineas_Aereas_340_EC-MFB_%2848483030416%29.jpg" alt="Plus Ultra aircraft" onerror="this.style.display='none';">
+</div>
+<div class="cname">Plus Ultra Airlines</div>
+<div class="cstats">
+<div class="stat"><strong>€53M</strong><span>Rescue</span></div>
+<div class="stat"><strong>€15.95M</strong><span>Diverted</span></div>
+<div class="stat"><strong>2021</strong><span>Date</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">95% Venezuelan-owned, minimal real ops. €15.95M diverted to shell companies after €53M state rescue.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Where did the €15.95M go? Full beneficiary network.</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">[2]</a> <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a></div>
+</div>
+<div class="stamp stamp-green">EXHIBIT A</div>
+</div>
 
-  <!-- 7. PEDRO SANCHEZ -->
-  <div class="card suspect" id="c_sanchez" style="top:100px; left:410px;">
-    <div class="pin pin-yellow"></div>
-    <div class="card-inner">
-      <div class="photo-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Pedro_S%C3%A1nchez_in_2026.jpg/250px-Pedro_S%C3%A1nchez_in_2026.jpg"
-             alt="Sanchez"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <svg class="fallback-svg" style="display:none;" viewBox="0 0 100 100">
-          <circle cx="50" cy="35" r="25" fill="#aaa"/><ellipse cx="50" cy="90" rx="40" ry="28" fill="#aaa"/>
-        </svg>
-      </div>
-      <div class="cname">Pedro Sanchez</div>
-      <div class="ctitle">PM Spain — Zapatero ally</div>
-      <div class="ccrime">
-        ▸ Cabinet approved €53M rescue (March 2021)<br>
-        ▸ Dismissed Ábalos only after Delcygate broke<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€53M</strong><span>Approved</span></div>
-        <div class="stat"><strong>PM</strong><span>2018–</span></div>
-        <div class="stat"><strong>Indirect</strong><span>Scrutiny</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">His cabinet approved the rescue. Dismissed Ábalos only after Delcygate became public.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Prior knowledge of Zapatero dealings? Was dismissal a cover-up?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">[14]</a> <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a></div>
-    </div>
-  </div>
+<!-- Venezuelan Gold -->
+<div class="card evidence" id="c_gold" style="top:515px; left:992px;">
+<div class="pin pin-yellow"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Gold_bullion_2.jpg/250px-Gold_bullion_2.jpg" alt="Gold bars" onerror="this.style.display='none';">
+</div>
+<div class="cname">Venezuelan Gold Mine</div>
+<div class="cstats">
+<div class="stat"><strong>8 tonnes</strong><span>Gold</span></div>
+<div class="stat"><strong>3 nations</strong><span>Alert</span></div>
+<div class="stat"><strong>UAE+CN</strong><span>Route</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">8 tonnes under investigation. International alert issued by USA, France and Switzerland.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Exact value. Zapatero family involvement confirmed?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://www.periodistadigital.com/pd-america/20260526/agendas-secretas-sacuden-caso-zapatero-petroleo-oro-venezolano-joyas-lujo-noticia-689405212916/" target="_blank">[4]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a></div>
+</div>
+<div class="stamp stamp-green">EXHIBIT B</div>
+</div>
 
-  <!-- Plus Ultra Airline -->
-  <div class="card evidence" id="c_plusultra" style="top:515px; left:410px;">
-    <div class="pin pin-white"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/PU_PUE_Plus_Ultra_Lineas_Aereas_340_EC-MFB_%2848483030416%29.jpg/250px-PU_PUE_Plus_Ultra_Lineas_Aereas_340_EC-MFB_%2848483030416%29.jpg" alt="Plus Ultra aircraft"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">Plus Ultra Airlines</div>
-      <div class="ccrime">
-        ▸ €53M rescue · €15.95M then diverted to shell companies<br>
-        ▸ 95% Venezuelan-owned · minimal real operations<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€53M</strong><span>Rescue</span></div>
-        <div class="stat"><strong>€15.95M</strong><span>Diverted</span></div>
-        <div class="stat"><strong>2021</strong><span>Date</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">€15.95M diverted to shell companies shortly after receiving state rescue.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Where did the €15.95M go? Full beneficiary network.</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">[2]</a> <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a></div>
-    </div>
-    <div class="stamp stamp-green">EXHIBIT A</div>
-  </div>
+<!-- Hidden Jewels UDEF -->
+<div class="card evidence" id="c_jewels" style="top:515px; left:604px;">
+<div class="pin pin-yellow"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Pectoral_and_Necklace_of_Sithathoryunet_with_the_Name_of_Senwosret_II_MET_DT531.jpg/250px-Pectoral_and_Necklace_of_Sithathoryunet_with_the_Name_of_Senwosret_II_MET_DT531.jpg" alt="Jewels" onerror="this.style.display='none';">
+</div>
+<div class="cname">Hidden Safe (UDEF Raid)</div>
+<div class="cstats">
+<div class="stat"><strong>Safe</strong><span>Found</span></div>
+<div class="stat"><strong>Gold photos</strong><span>Inside</span></div>
+<div class="stat"><strong>2026</strong><span>Seized</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">Safe contained jewels, watches & gold bar photos. Seized in UDEF raid of Zapatero's office (2026).</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Who provided items? Undeclared income or bribes?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-25/udef-joyas-relojes-caja-fuerte-zapatero/" target="_blank">[5]</a> <a href="https://www.periodistadigital.com/gente/sucesos/20260530/asesor-dedo-custodiaba-joyas-zapatero-cobraba-moncloa-noticia-689405214325/" target="_blank">[6]</a></div>
+</div>
+<div class="stamp stamp-green">EXHIBIT C</div>
+</div>
 
-  <!-- Venezuelan Gold -->
-  <div class="card evidence" id="c_gold" style="top:515px; left:992px;">
-    <div class="pin pin-yellow"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Gold_bullion_2.jpg/250px-Gold_bullion_2.jpg" alt="Gold bars"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">Venezuelan Gold Mine</div>
-      <div class="ccrime">
-        ▸ 8 tonnes of Venezuelan gold under investigation<br>
-        ▸ International alert issued by USA, France & Switzerland<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>8 tonnes</strong><span>Gold</span></div>
-        <div class="stat"><strong>3 nations</strong><span>Alert</span></div>
-        <div class="stat"><strong>UAE+CN</strong><span>Route</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">8 tonnes of gold. International alert jointly issued by USA, France and Switzerland.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Exact value. Zapatero family involvement confirmed?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://www.periodistadigital.com/pd-america/20260526/agendas-secretas-sacuden-caso-zapatero-petroleo-oro-venezolano-joyas-lujo-noticia-689405212916/" target="_blank">[4]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a></div>
-    </div>
-    <div class="stamp stamp-green">EXHIBIT B</div>
-  </div>
+<!-- ETA Connection -->
+<div class="card evidence" id="c_eta" style="top:515px; left:22px;">
+<div class="pin pin-red"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/18/EuskadiTaAskatasunaMural.JPG/250px-EuskadiTaAskatasunaMural.JPG" alt="ETA mural" onerror="this.style.display='none';">
+</div>
+<div class="cname">ETA — Basque Separatists</div>
+<div class="cstats">
+<div class="stat"><strong>800+</strong><span>Killed</span></div>
+<div class="stat"><strong>2018</strong><span>Disbanded</span></div>
+<div class="stat"><strong>VZ</strong><span>Refuge</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">ETA exiles protected in Venezuela by Maduro. Operators overlap with Plus Ultra network.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Specific individuals identified. Direct coordination?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://brusselssignal.eu/2026/05/zapateros-legal-jeopardy-the-fronts-facing-the-countrys-first-former-pm-indicted-for-corruption/" target="_blank">[7]</a> <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a></div>
+</div>
+</div>
 
-  <!-- Hidden Jewels UDEF -->
-  <div class="card evidence" id="c_jewels" style="top:515px; left:604px;">
-    <div class="pin pin-yellow"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Pectoral_and_Necklace_of_Sithathoryunet_with_the_Name_of_Senwosret_II_MET_DT531.jpg/250px-Pectoral_and_Necklace_of_Sithathoryunet_with_the_Name_of_Senwosret_II_MET_DT531.jpg" alt="Jewels"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">Hidden Safe (UDEF Raid)</div>
-      <div class="ccrime">
-        ▸ Hidden safe: jewels, watches & gold bar photographs<br>
-        ▸ Seized in UDEF raid of Zapatero’s office (2026)<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>Safe</strong><span>Found</span></div>
-        <div class="stat"><strong>Gold photos</strong><span>Inside</span></div>
-        <div class="stat"><strong>2026</strong><span>Seized</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">UDEF found safe with jewels, watches and photographs of gold bars.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Who provided items? Undeclared income or bribes?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-25/udef-joyas-relojes-caja-fuerte-zapatero/" target="_blank">[5]</a> <a href="https://www.periodistadigital.com/gente/sucesos/20260530/asesor-dedo-custodiaba-joyas-zapatero-cobraba-moncloa-noticia-689405214325/" target="_blank">[6]</a></div>
-    </div>
-    <div class="stamp stamp-green">EXHIBIT C</div>
-  </div>
+<!-- Illicit Payments -->
+<div class="card evidence" id="c_payments" style="top:515px; left:216px;">
+<div class="pin pin-red"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Money-laundering.svg/250px-Money-laundering.svg.png" alt="Money laundering" onerror="this.style.display='none';">
+</div>
+<div class="cname">Illicit Cash Payments</div>
+<div class="cstats">
+<div class="stat"><strong>€5,000</strong><span>Total</span></div>
+<div class="stat"><strong>2</strong><span>Recipients</span></div>
+<div class="stat"><strong>Tracked</strong><span>Status</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">€2,000 to "Jessica" · €3,000 to "Alejandra" — documented in 4,000-page official case file.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Who authorised the payments and for what services?</div>
+</div>
+<div class="csources">SOURCES: <a href="https://www.esdiario.com/nacional/260526/188753/zapatero-pago-prostitutas-jessica.html" target="_blank">[9]</a></div>
+</div>
+</div>
 
-  <!-- ETA Connection -->
-  <div class="card evidence" id="c_eta" style="top:515px; left:22px;">
-    <div class="pin pin-red"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/18/EuskadiTaAskatasunaMural.JPG/250px-EuskadiTaAskatasunaMural.JPG" alt="ETA mural"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">ETA — Basque Separatists</div>
-      <div class="ccrime">
-        ▸ ETA exiles protected in Venezuela by Maduro regime<br>
-        ▸ Operators overlap with Plus Ultra network<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>800+</strong><span>Killed</span></div>
-        <div class="stat"><strong>2018</strong><span>Disbanded</span></div>
-        <div class="stat"><strong>VZ</strong><span>Refuge</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">ETA exiles sheltered by Maduro post-2006. Operators overlap with Plus Ultra.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Specific individuals identified. Direct coordination?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://brusselssignal.eu/2026/05/zapateros-legal-jeopardy-the-fronts-facing-the-countrys-first-former-pm-indicted-for-corruption/" target="_blank">[7]</a> <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a></div>
-    </div>
-  </div>
+<!-- CLAP Food Program -->
+<div class="card evidence" id="c_clap" style="top:515px; left:1186px;">
+<div class="pin pin-red"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Caja_CLAP.jpg/250px-Caja_CLAP.jpg" alt="CLAP food box" onerror="this.style.display='none';">
+</div>
+<div class="cname">CLAP Food Program</div>
+<div class="cstats">
+<div class="stat"><strong>$800M</strong><span>Per year</span></div>
+<div class="stat"><strong>7M</strong><span>Households</span></div>
+<div class="stat"><strong>Fraud</strong><span>Type</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">$800M/yr — Delcy controls all ship assignments. ETA-linked operators in distribution network.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">Total siphoned. Links to European bank accounts.</div>
+</div>
+<div class="csources">SOURCES: <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a> <a href="https://www.vozdeamerica.com/a/que-son-los-clap-y-que-tienen-que-ver-con-alex-saab-/6277181.html" target="_blank">[10]</a></div>
+</div>
+</div>
 
-  <!-- Illicit Payments (Prostitutes) -->
-  <div class="card evidence" id="c_payments" style="top:515px; left:216px;">
-    <div class="pin pin-red"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Money-laundering.svg/250px-Money-laundering.svg.png" alt="Money laundering"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">Illicit Cash Payments</div>
-      <div class="ccrime">
-        ▸ €2,000 to “Jessica” · €3,000 to “Alejandra”<br>
-        ▸ Documented in 4,000-page official case file<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€5,000</strong><span>Total</span></div>
-        <div class="stat"><strong>2</strong><span>Recipients</span></div>
-        <div class="stat"><strong>Tracked</strong><span>Status</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">Cash payments documented in the official 4,000-page case file.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Who authorised the payments and for what services?</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://www.esdiario.com/nacional/260526/188753/zapatero-pago-prostitutas-jessica.html" target="_blank">[9]</a></div>
-    </div>
-  </div>
+<!-- Daughters' company -->
+<div class="card evidence" id="c_daughters" style="top:515px; left:798px;">
+<div class="pin pin-yellow"></div>
+<div class="card-inner">
+<div class="photo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/1998_Senate_Investigation_Contribution_Money_Laundering.pdf/page1-250px-1998_Senate_Investigation_Contribution_Money_Laundering.pdf.jpg" alt="Investigation documents" onerror="this.style.display='none';">
+</div>
+<div class="cname">Whathefav SL</div>
+<div class="cstats">
+<div class="stat"><strong>€423K</strong><span>Received</span></div>
+<div class="stat"><strong>Raided</strong><span>2026</span></div>
+<div class="stat"><strong>Email</strong><span>Seized</span></div>
+</div>
+<div class="csection">
+<div class="csection-title">What We Know</div>
+<div class="csection-body">€423,779 traced to Laura & Alba Zapatero. UDEF raided office; court authorised email access.</div>
+</div>
+<div class="csection csection-inv">
+<div class="csection-title">Under Investigation</div>
+<div class="csection-body">What services were provided? Full payment network.</div>
+</div>
+<div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://brusselssignal.eu/2026/05/zapateros-legal-jeopardy-the-fronts-facing-the-countrys-first-former-pm-indicted-for-corruption/" target="_blank">[7]</a></div>
+</div>
+</div>
 
-  <!-- CLAP Food Program -->
-  <div class="card evidence" id="c_clap" style="top:515px; left:1186px;">
-    <div class="pin pin-red"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Caja_CLAP.jpg/250px-Caja_CLAP.jpg" alt="CLAP food box"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">CLAP Food Program</div>
-      <div class="ccrime">
-        ▸ $800M/yr · Delcy controls all ship assignments<br>
-        ▸ ETA-linked operators in distribution network<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>$800M</strong><span>Per year</span></div>
-        <div class="stat"><strong>7M</strong><span>Households</span></div>
-        <div class="stat"><strong>Fraud</strong><span>Type</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">Delcy controls ship assignments. ETA-linked operators in distribution.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">Total siphoned. Links to European bank accounts.</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">[8]</a> <a href="https://www.vozdeamerica.com/a/que-son-los-clap-y-que-tienen-que-ver-con-alex-saab-/6277181.html" target="_blank">[10]</a></div>
-    </div>
-  </div>
+<!-- STICKY NOTES -->
+<div class="note" style="top:425px; left:22px;">"Delcy, que llame<br>a Ábalos"<br><span style="font-size:8px; color:#666;">— R. Reyes (WhatsApp msg)</span></div>
+<div class="note" style="top:425px; left:280px;">Network spans:<br>🇪🇸 Spain → 🇻🇪 Venezuela<br>→ 🇦🇪 UAE → 🇨🇳 China</div>
+<div class="note" style="top:425px; left:520px;">Judge Calama:<br>"stable, hierarchical<br>structure of<br>influence peddling"</div>
+<div class="note" style="top:425px; left:760px;">€1.9M in benefits<br>incl. daughters'<br>company Whathefav</div>
+<div class="note" style="top:425px; left:1000px;">First former Spanish<br>PM charged in<br>democratic history<br><span style="color:#8b0000; font-weight:bold;">May 19, 2026</span></div>
 
-  <!-- Daughters' company -->
-  <div class="card evidence" id="c_daughters" style="top:515px; left:798px;">
-    <div class="pin pin-yellow"></div>
-    <div class="card-inner">
-      <div class="photo-box" style="">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/1998_Senate_Investigation_Contribution_Money_Laundering.pdf/page1-250px-1998_Senate_Investigation_Contribution_Money_Laundering.pdf.jpg" alt="Investigation documents"
-             onerror="this.style.display='none';">
-      </div>
-      <div class="cname">Whathefav SL</div>
-      <div class="ccrime">
-        ▸ €423,779 traced to Laura & Alba Zapatero<br>
-        ▸ Office raided by UDEF · email access authorised by court<br>
-      </div>
-      <div class="cstats">
-        <div class="stat"><strong>€423K</strong><span>Received</span></div>
-        <div class="stat"><strong>Raided</strong><span>2026</span></div>
-        <div class="stat"><strong>Email</strong><span>Seized</span></div>
-      </div>
-      
-      <div class="csection">
-        <div class="csection-title">What We Know</div>
-        <div class="csection-body">€423,779 traced. UDEF raided office; court authorised access to their emails.</div>
-      </div>
-      <div class="csection csection-inv">
-        <div class="csection-title">Under Investigation</div>
-        <div class="csection-body">What services were provided? Full payment network.</div>
-      </div>
-      <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://brusselssignal.eu/2026/05/zapateros-legal-jeopardy-the-fronts-facing-the-countrys-first-former-pm-indicted-for-corruption/" target="_blank">[7]</a></div>
-    </div>
-  </div>
-
-  <!-- ════════════════════════════
-       STICKY NOTES
-  ════════════════════════════ -->
-  <div class="note" style="top:425px; left:22px;">
-    "Delcy, que llame<br>a Ábalos"<br>
-    <span style="font-size:8px; color:#666;">— R. Reyes (WhatsApp msg)</span>
-  </div>
-
-  <div class="note" style="top:425px; left:280px;">
-    Network spans:<br>
-    🇪🇸 Spain → 🇻🇪 Venezuela<br>
-    → 🇦🇪 UAE → 🇨🇳 China
-  </div>
-
-  <div class="note" style="top:425px; left:520px;">
-    Judge Calama:<br>"stable, hierarchical<br>structure of<br>influence peddling"
-  </div>
-
-  <div class="note" style="top:425px; left:760px;">
-    €1.9M in benefits<br>incl. daughters'<br>company Whathefav
-  </div>
-
-  <div class="note" style="top:425px; left:1000px;">
-    First former Spanish<br>PM charged in<br>democratic history<br><span style="color:#8b0000; font-weight:bold;">May 19, 2026</span>
-  </div>
-
-
-  <!-- STAT BANNER -->
-  <div id="stat-banner" style="position:absolute; top:14px; left:20px; width:1340px; z-index:3; display:flex; box-shadow:3px 5px 20px rgba(0,0,0,0.7);">
-    <div style="background:#000; padding:0 18px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:110px;">
-      <span style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:#fff; line-height:1.3;">STATS</span>
-    </div>
-    <div style="flex:1; background:#fff; display:flex;">
-      <div style="flex:1; border-right:1px solid #eee; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">&#8364;70M+</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Total under<br>investigation</div>
-      </div>
-      <div style="flex:1; border-right:1px solid #eee; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">10</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Countries<br>connected</div>
-      </div>
-      <div style="flex:1; border-right:1px solid #eee; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">60</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">People<br>investigated</div>
-      </div>
-      <div style="flex:1; border-right:1px solid #eee; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">5 yrs</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Alleged conduct<br>2020&#8211;2025</div>
-      </div>
-      <div style="flex:1; border-right:1px solid #eee; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">40</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Companies<br>traced</div>
-      </div>
-      <div style="flex:1; border-right:1px solid #eee; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">8t</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Gold from<br>Venezuela</div>
-      </div>
-      <div style="flex:1; padding:6px 16px; display:flex; align-items:center; gap:10px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">4,000</div>
-        <div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Pages in<br>case file</div>
-      </div>
-    </div>
-  </div>
+<!-- STAT BANNER -->
+<div id="stat-banner" style="position:absolute; top:14px; left:20px; width:1340px; z-index:3; display:flex; box-shadow:3px 5px 20px rgba(0,0,0,0.7);">
+<div style="background:#000; padding:0 18px; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:110px;">
+<span style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:#fff; line-height:1.3;">STATS</span>
+</div>
+<div style="flex:1; background:#fff; display:flex;">
+<div style="flex:1; border-right:1px solid #eee; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">&#8364;70M+</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Total under<br>investigation</div>
+</div>
+<div style="flex:1; border-right:1px solid #eee; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">10</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Countries<br>connected</div>
+</div>
+<div style="flex:1; border-right:1px solid #eee; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">60</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">People<br>investigated</div>
+</div>
+<div style="flex:1; border-right:1px solid #eee; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">5 yrs</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Alleged conduct<br>2020&#8211;2025</div>
+</div>
+<div style="flex:1; border-right:1px solid #eee; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">40</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Companies<br>traced</div>
+</div>
+<div style="flex:1; border-right:1px solid #eee; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">8t</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Gold from<br>Venezuela</div>
+</div>
+<div style="flex:1; padding:3px 12px; display:flex; align-items:center; gap:10px;">
+<div style="font-family:'Bebas Neue',sans-serif; font-size:34px; color:#000; line-height:1; white-space:nowrap;">4,000</div>
+<div style="font-size:8.5px; color:#666; text-transform:uppercase; letter-spacing:0.4px; line-height:1.5;">Pages in<br>case file</div>
+</div>
+</div>
+</div>
 </div><!-- end board -->
 </div><!-- end wrapper -->
 
 <div class="references">
-  <h2>📎 SOURCES &amp; REFERENCES</h2>
-  <div class="ref-grid">
-    <div class="ref-item"><span class="ref-num">[1]</span><a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">The Objective — El caso Zapatero en diez claves: petróleo, minas de oro y joyas</a></div>
-    <div class="ref-item"><span class="ref-num">[2]</span><a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">The Olive Press — Zapatero Plus Ultra scandal exposes Venezuela links</a></div>
-    <div class="ref-item"><span class="ref-num">[3]</span><a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">Planet News — Former Spanish PM Zapatero Charged in Historic Plus Ultra Corruption Scandal</a></div>
-    <div class="ref-item"><span class="ref-num">[4]</span><a href="https://www.periodistadigital.com/pd-america/20260526/agendas-secretas-sacuden-caso-zapatero-petroleo-oro-venezolano-joyas-lujo-noticia-689405212916/" target="_blank">Periodista Digital — Las agendas secretas del caso Zapatero: petróleo, oro venezolano y joyas</a></div>
-    <div class="ref-item"><span class="ref-num">[5]</span><a href="https://theobjective.com/espana/tribunales/2026-05-25/udef-joyas-relojes-caja-fuerte-zapatero/" target="_blank">The Objective — La UDEF encontró joyas y relojes en una caja fuerte oculta en el despacho de Zapatero</a></div>
-    <div class="ref-item"><span class="ref-num">[6]</span><a href="https://www.periodistadigital.com/gente/sucesos/20260530/asesor-dedo-custodiaba-joyas-zapatero-cobraba-moncloa-noticia-689405214325/" target="_blank">Periodista Digital — El asesor que custodiaba las joyas de Zapatero y cobraba de Moncloa</a></div>
-    <div class="ref-item"><span class="ref-num">[7]</span><a href="https://brusselssignal.eu/2026/05/zapateros-legal-jeopardy-the-fronts-facing-the-countrys-first-former-pm-indicted-for-corruption/" target="_blank">Brussels Signal — Zapatero's legal jeopardy: the fronts facing the first former PM indicted</a></div>
-    <div class="ref-item"><span class="ref-num">[8]</span><a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">Caracas Chronicles — The Rodríguez Siblings Are Losing a Major Asset: Zapatero</a></div>
-    <div class="ref-item"><span class="ref-num">[9]</span><a href="https://www.esdiario.com/nacional/260526/188753/zapatero-pago-prostitutas-jessica.html" target="_blank">Es Diario — La trama de Zapatero también pagó prostitutas para favores: "2.000 a Jéssica y 3.000 a Alejandra"</a></div>
-    <div class="ref-item"><span class="ref-num">[10]</span><a href="https://www.vozdeamerica.com/a/que-son-los-clap-y-que-tienen-que-ver-con-alex-saab-/6277181.html" target="_blank">Voz de América — ¿Qué son los CLAP y qué tienen que ver con Alex Saab?</a></div>
-    <div class="ref-item"><span class="ref-num">[11]</span><a href="https://www.irishtimes.com/world/europe/2026/05/25/inquiry-into-former-spanish-prime-minister-leaves-government-reeling/" target="_blank">Irish Times — Inquiry into former Spanish prime minister leaves government reeling</a></div>
-    <div class="ref-item"><span class="ref-num">[12]</span><a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">The Objective — Zapatero logró que Delcy autorizase a Plus Ultra seis vuelos antes del rescate</a></div>
-    <div class="ref-item"><span class="ref-num">[13]</span><a href="https://www.washingtonexaminer.com/op-eds/4579365/spain-zapatero-exposed-maduro-fixer-trump-must-extradite/" target="_blank">Washington Examiner — Spain's Zapatero exposed as Maduro's fixer. Trump must extradite</a></div>
-    <div class="ref-item"><span class="ref-num">[14]</span><a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">The Objective — Sánchez destituyó a Ábalos tras entrar en colisión con Zapatero en la trama del petróleo</a></div>
-  </div>
+<h2>📎 SOURCES &amp; REFERENCES</h2>
+<div class="ref-grid">
+<div class="ref-item"><span class="ref-num">[1]</span><a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">The Objective — El caso Zapatero en diez claves: petróleo, minas de oro y joyas</a></div>
+<div class="ref-item"><span class="ref-num">[2]</span><a href="https://www.theolivepress.es/spain-news/2026/05/20/spains-zapatero-plus-ultra-corruption-scandal-exposes-venezuela-links/" target="_blank">The Olive Press — Zapatero Plus Ultra scandal exposes Venezuela links</a></div>
+<div class="ref-item"><span class="ref-num">[3]</span><a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">Planet News — Former Spanish PM Zapatero Charged in Historic Plus Ultra Corruption Scandal</a></div>
+<div class="ref-item"><span class="ref-num">[4]</span><a href="https://www.periodistadigital.com/pd-america/20260526/agendas-secretas-sacuden-caso-zapatero-petroleo-oro-venezolano-joyas-lujo-noticia-689405212916/" target="_blank">Periodista Digital — Las agendas secretas del caso Zapatero: petróleo, oro venezolano y joyas</a></div>
+<div class="ref-item"><span class="ref-num">[5]</span><a href="https://theobjective.com/espana/tribunales/2026-05-25/udef-joyas-relojes-caja-fuerte-zapatero/" target="_blank">The Objective — La UDEF encontró joyas y relojes en una caja fuerte oculta en el despacho de Zapatero</a></div>
+<div class="ref-item"><span class="ref-num">[6]</span><a href="https://www.periodistadigital.com/gente/sucesos/20260530/asesor-dedo-custodiaba-joyas-zapatero-cobraba-moncloa-noticia-689405214325/" target="_blank">Periodista Digital — El asesor que custodiaba las joyas de Zapatero y cobraba de Moncloa</a></div>
+<div class="ref-item"><span class="ref-num">[7]</span><a href="https://brusselssignal.eu/2026/05/zapateros-legal-jeopardy-the-fronts-facing-the-countrys-first-former-pm-indicted-for-corruption/" target="_blank">Brussels Signal — Zapatero's legal jeopardy: the fronts facing the first former PM indicted</a></div>
+<div class="ref-item"><span class="ref-num">[8]</span><a href="https://www.caracaschronicles.com/2026/05/27/the-rodriguez-siblings-are-losing-a-major-asset-zapatero/" target="_blank">Caracas Chronicles — The Rodríguez Siblings Are Losing a Major Asset: Zapatero</a></div>
+<div class="ref-item"><span class="ref-num">[9]</span><a href="https://www.esdiario.com/nacional/260526/188753/zapatero-pago-prostitutas-jessica.html" target="_blank">Es Diario — La trama de Zapatero también pagó prostitutas para favores: "2.000 a Jéssica y 3.000 a Alejandra"</a></div>
+<div class="ref-item"><span class="ref-num">[10]</span><a href="https://www.vozdeamerica.com/a/que-son-los-clap-y-que-tienen-que-ver-con-alex-saab-/6277181.html" target="_blank">Voz de América — ¿Qué son los CLAP y qué tienen que ver con Alex Saab?</a></div>
+<div class="ref-item"><span class="ref-num">[11]</span><a href="https://www.irishtimes.com/world/europe/2026/05/25/inquiry-into-former-spanish-prime-minister-leaves-government-reeling/" target="_blank">Irish Times — Inquiry into former Spanish prime minister leaves government reeling</a></div>
+<div class="ref-item"><span class="ref-num">[12]</span><a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">The Objective — Zapatero logró que Delcy autorizase a Plus Ultra seis vuelos antes del rescate</a></div>
+<div class="ref-item"><span class="ref-num">[13]</span><a href="https://www.washingtonexaminer.com/op-eds/4579365/spain-zapatero-exposed-maduro-fixer-trump-must-extradite/" target="_blank">Washington Examiner — Spain's Zapatero exposed as Maduro's fixer. Trump must extradite</a></div>
+<div class="ref-item"><span class="ref-num">[14]</span><a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">The Objective — Sánchez destituyó a Ábalos tras entrar en colisión con Zapatero en la trama del petróleo</a></div>
+</div>
 </div>
 
 <script>
-// Connection definitions: [from, to, color, width, label?]
 const connections = [
-  ['c_zapatero', 'c_delcy',    '#ffffff', 2.8, 'KEY ALLIANCE'],
-  ['c_zapatero', 'c_abalos',   '#ffffff', 2.2, 'PRESSURE'],
-  ['c_zapatero', 'c_julito',   '#ffffff', 2.4, 'FIXER'],
-  ['c_zapatero', 'c_sanchez',  '#aaaaaa', 1.6, null],
-  ['c_zapatero', 'c_plusultra','#cccccc', 1.8, null],
-  ['c_zapatero', 'c_jewels',   '#bbbbbb', 1.5, null],
-  ['c_zapatero', 'c_gold',     '#cccccc', 1.8, 'MINE RIGHTS'],
-  ['c_zapatero', 'c_daughters','#bbbbbb', 1.5, null],
-  ['c_zapatero', 'c_eta',      '#dddddd', 1.6, null],
-  ['c_zapatero', 'c_payments', '#dddddd', 1.5, null],
-  ['c_delcy',    'c_maduro',   '#ffffff', 2.4, null],
-  ['c_delcy',    'c_clap',     '#cccccc', 1.8, null],
-  ['c_delcy',    'c_abalos',   '#ffffff', 2.0, 'DELCYGATE'],
-  ['c_delcy',    'c_gold',     '#bbbbbb', 1.6, null],
-  ['c_abalos',   'c_plusultra','#dddddd', 2.0, 'APPROVED RESCUE'],
-  ['c_abalos',   'c_sanchez',  '#999999', 1.4, null],
-  ['c_julito',   'c_plusultra','#cccccc', 2.0, null],
-  ['c_reyes',    'c_plusultra','#cccccc', 1.8, 'OWNER'],
-  ['c_reyes',    'c_julito',   '#bbbbbb', 1.6, null],
-  ['c_maduro',   'c_gold',     '#bbbbbb', 1.8, null],
-  ['c_maduro',   'c_clap',     '#cccccc', 1.8, null],
-  ['c_maduro',   'c_eta',      '#aaaaaa', 1.4, null],
-  ['c_eta',      'c_clap',     '#888888', 1.2, null],
-  ['c_plusultra','c_clap',     '#777777', 1.2, null],
+['c_zapatero', 'c_delcy', '#ffffff', 2.8, 'KEY ALLIANCE'],
+['c_zapatero', 'c_abalos', '#ffffff', 2.2, 'PRESSURE'],
+['c_zapatero', 'c_julito', '#ffffff', 2.4, 'FIXER'],
+['c_zapatero', 'c_sanchez', '#aaaaaa', 1.6, null],
+['c_zapatero', 'c_plusultra','#cccccc', 1.8, null],
+['c_zapatero', 'c_jewels', '#bbbbbb', 1.5, null],
+['c_zapatero', 'c_gold', '#cccccc', 1.8, 'MINE RIGHTS'],
+['c_zapatero', 'c_daughters','#bbbbbb', 1.5, null],
+['c_zapatero', 'c_eta', '#dddddd', 1.6, null],
+['c_zapatero', 'c_payments', '#dddddd', 1.5, null],
+['c_delcy', 'c_maduro', '#ffffff', 2.4, null],
+['c_delcy', 'c_clap', '#cccccc', 1.8, null],
+['c_delcy', 'c_abalos', '#ffffff', 2.0, 'DELCYGATE'],
+['c_delcy', 'c_gold', '#bbbbbb', 1.6, null],
+['c_abalos', 'c_plusultra','#dddddd', 2.0, 'APPROVED RESCUE'],
+['c_abalos', 'c_sanchez', '#999999', 1.4, null],
+['c_julito', 'c_plusultra','#cccccc', 2.0, null],
+['c_reyes', 'c_plusultra','#cccccc', 1.8, 'OWNER'],
+['c_reyes', 'c_julito', '#bbbbbb', 1.6, null],
+['c_maduro', 'c_gold', '#bbbbbb', 1.8, null],
+['c_maduro', 'c_clap', '#cccccc', 1.8, null],
+['c_maduro', 'c_eta', '#aaaaaa', 1.4, null],
+['c_eta', 'c_clap', '#888888', 1.2, null],
+['c_plusultra','c_clap', '#777777', 1.2, null],
 ];
 
 function getCenter(id) {
-  const el = document.getElementById(id);
-  const board = document.getElementById('board');
-  if (!el || !board) return { x: 0, y: 0 };
-  const er = el.getBoundingClientRect();
-  const br = board.getBoundingClientRect();
-  return {
-    x: er.left - br.left + er.width / 2,
-    y: er.top  - br.top  + er.height / 2
-  };
+const el = document.getElementById(id);
+const board = document.getElementById('board');
+if (!el || !board) return { x: 0, y: 0 };
+const er = el.getBoundingClientRect();
+const br = board.getBoundingClientRect();
+return { x: er.left - br.left + er.width / 2, y: er.top - br.top + er.height / 2 };
 }
 
 function drawStrings() {
-  const svg = document.getElementById('svgLayer');
-  const board = document.getElementById('board');
-  if (!svg || !board) return;
-  svg.setAttribute('viewBox', `0 0 ${board.offsetWidth} ${board.offsetHeight}`);
-  svg.setAttribute('width',  board.offsetWidth);
-  svg.setAttribute('height', board.offsetHeight);
-
-  let html = '<defs>';
-  // define a subtle glow filter for main strings
-  html += `<filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>`;
-  html += '</defs>';
-
-  const rand = (seed) => {
-    const x = Math.sin(seed) * 10000;
-    return x - Math.floor(x);
-  };
-
-  connections.forEach(([from, to, color, width, label], i) => {
-    const a = getCenter(from);
-    const b = getCenter(to);
-    const dx = b.x - a.x, dy = b.y - a.y;
-    const mx = (a.x + b.x) / 2;
-    const my = (a.y + b.y) / 2;
-    // perpendicular offset for curve
-    const perp = { x: -dy, y: dx };
-    const len = Math.sqrt(perp.x*perp.x + perp.y*perp.y) || 1;
-    const offset = (rand(i * 7.3 + 1.1) - 0.5) * 60;
-    const cx = mx + (perp.x / len) * offset;
-    const cy = my + (perp.y / len) * offset;
-
-    const isMain = width >= 2.2;
-    html += `<path d="M${a.x.toFixed(1)},${a.y.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${b.x.toFixed(1)},${b.y.toFixed(1)}"
-      stroke="${color}" stroke-width="${width}" fill="none"
-      stroke-opacity="0.72" stroke-linecap="round"
-      ${isMain ? 'filter="url(#glow)"' : ''}/>`;
-
-    if (label) {
-      const lx = (a.x * 0.4 + b.x * 0.6);
-      const ly = (a.y * 0.4 + b.y * 0.6) - 8;
-      html += `<text x="${lx.toFixed(0)}" y="${ly.toFixed(0)}"
-        fill="#ffffff" font-size="9" font-family="Inter, sans-serif"
-        text-anchor="middle" font-weight="600" opacity="0.85">${label}</text>`;
-    }
-  });
-
-  svg.innerHTML = html;
-}
-
-// Auto-shrink card headings that overflow to a single line
-function fitHeadings() {
-  document.querySelectorAll('.cname').forEach(el => {
-    el.style.fontSize = '';          // reset to CSS default (12px)
-    let size = 12;
-    while (el.scrollWidth > el.offsetWidth + 1 && size > 7) {
-      size -= 0.25;
-      el.style.fontSize = size + 'px';
-    }
-  });
-}
-
-// Dynamically fit board height to content
-function adjustBoardHeight() {
-  const board = document.getElementById('board');
-  if (!board) return;
-  const boardRect = board.getBoundingClientRect();
-  let maxBottom = 0;
-  board.querySelectorAll('.card, #stat-banner').forEach(el => {
-    const r = el.getBoundingClientRect();
-    const bottom = r.bottom - boardRect.top;
-    if (bottom > maxBottom) maxBottom = bottom;
-  });
-  if (maxBottom > 50) board.style.height = (maxBottom + 28) + 'px';
-}
-
-window.addEventListener('load', () => {
-  setTimeout(() => { fitHeadings(); adjustBoardHeight(); drawStrings(); }, 200);
+const svg = document.getElementById('svgLayer');
+const board = document.getElementById('board');
+if (!svg || !board) return;
+svg.setAttribute('viewBox', `0 0 ${board.offsetWidth} ${board.offsetHeight}`);
+svg.setAttribute('width', board.offsetWidth);
+svg.setAttribute('height', board.offsetHeight);
+let html = '<defs><filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+const rand = (seed) => { const x = Math.sin(seed) * 10000; return x - Math.floor(x); };
+connections.forEach(([from, to, color, width, label], i) => {
+const a = getCenter(from), b = getCenter(to);
+const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+const perp = { x: -(b.y - a.y), y: b.x - a.x };
+const len = Math.sqrt(perp.x*perp.x + perp.y*perp.y) || 1;
+const offset = (rand(i * 7.3 + 1.1) - 0.5) * 60;
+const cx = mx + (perp.x / len) * offset, cy = my + (perp.y / len) * offset;
+const isMain = width >= 2.2;
+html += `<path d="M${a.x.toFixed(1)},${a.y.toFixed(1)} Q${cx.toFixed(1)},${cy.toFixed(1)} ${b.x.toFixed(1)},${b.y.toFixed(1)}" stroke="${color}" stroke-width="${width}" fill="none" stroke-opacity="0.72" stroke-linecap="round" ${isMain ? 'filter="url(#glow)"' : ''}/>`;
+if (label) { const lx = a.x * 0.4 + b.x * 0.6, ly = a.y * 0.4 + b.y * 0.6 - 8; html += `<text x="${lx.toFixed(0)}" y="${ly.toFixed(0)}" fill="#ffffff" font-size="9" font-family="Inter, sans-serif" text-anchor="middle" font-weight="600" opacity="0.85">${label}</text>`; }
 });
+svg.innerHTML = html;
+}
+
+function fitHeadings() {
+document.querySelectorAll('.cname').forEach(el => {
+el.style.fontSize = '';
+let size = 12;
+while (el.scrollWidth > el.offsetWidth + 1 && size > 7) { size -= 0.25; el.style.fontSize = size + 'px'; }
+});
+}
+
+function adjustBoardHeight() {
+const board = document.getElementById('board');
+if (!board) return;
+const boardRect = board.getBoundingClientRect();
+let maxBottom = 0;
+board.querySelectorAll('.card, #stat-banner').forEach(el => {
+const r = el.getBoundingClientRect();
+const bottom = r.bottom - boardRect.top;
+if (bottom > maxBottom) maxBottom = bottom;
+});
+if (maxBottom > 50) board.style.height = (maxBottom + 28) + 'px';
+}
+
+window.addEventListener('load', () => { setTimeout(() => { fitHeadings(); adjustBoardHeight(); drawStrings(); }, 200); });
 window.addEventListener('resize', () => { adjustBoardHeight(); drawStrings(); });
-window.addEventListener('resize', drawStrings);
 </script>
 </body>
 </html>
