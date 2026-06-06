@@ -351,6 +351,7 @@ line-height: 1.4;
     position: static !important;
     width: 100% !important;
     height: auto !important;
+    min-height: 0 !important;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -402,6 +403,44 @@ line-height: 1.4;
 @media (max-width: 480px) {
   .board { grid-template-columns: 1fr; }
   .header { font-size: 14px; letter-spacing: 2px; padding: 12px 55px 8px; }
+}
+
+/* ── BOTTOM NAV (mobile only) ────────────────────── */
+.bottom-nav {
+  display: none;
+}
+@media (max-width: 860px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #000;
+    border-top: 1px solid #333;
+    z-index: 200;
+    height: 54px;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 12px;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottom-nav a {
+    color: #aaa;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 14px;
+    border: 1px solid #333;
+    border-radius: 4px;
+  }
+  .bottom-nav a:hover, .bottom-nav a:active { color: #fff; border-color: #666; }
+  /* Add padding so content doesn't sit behind the bar */
+  body { padding-bottom: 64px; }
 }
 </style>
 </head>
@@ -940,8 +979,21 @@ if (bottom > maxBottom) maxBottom = bottom;
 if (maxBottom > 50) board.style.height = (maxBottom + 28) + 'px';
 }
 
-window.addEventListener('load', () => { setTimeout(() => { fitHeadings(); adjustBoardHeight(); drawStrings(); }, 200); });
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if (window.innerWidth <= 860) {
+      const board = document.getElementById('board');
+      if (board) board.style.height = '';
+    }
+    fitHeadings(); adjustBoardHeight(); drawStrings();
+  }, 200);
+});
 window.addEventListener('resize', () => { adjustBoardHeight(); drawStrings(); });
 </script>
+
+<nav class="bottom-nav">
+  <a href="about.html">ℹ&nbsp; About</a>
+</nav>
+
 </body>
 </html>
