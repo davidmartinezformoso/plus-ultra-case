@@ -335,6 +335,74 @@ color: #333;
 line-height: 1.4;
 }
 .csection-inv .csection-title { color: #888; }
+
+/* ── MOBILE ──────────────────────────────────────── */
+@media (max-width: 860px) {
+  .header {
+    font-size: 18px;
+    letter-spacing: 3px;
+    padding: 14px 60px 10px;
+  }
+  .header .sub { font-size: 9px; letter-spacing: 2px; }
+
+  .board-wrapper { padding: 8px; overflow: visible; }
+
+  .board {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    background-image: none;
+    box-shadow: none;
+  }
+
+  /* Hide desktop-only elements */
+  .strings-layer,
+  .note,
+  .label-box { display: none !important; }
+
+  /* Stat banner: full-width row at top, scrollable */
+  #stat-banner {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    grid-column: 1 / -1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 0;
+    box-shadow: none !important;
+  }
+
+  /* Cards: flow in grid */
+  .card,
+  .suspect,
+  .suspect-main,
+  .evidence {
+    position: static !important;
+    width: 100% !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+  .card:hover { transform: none !important; }
+
+  /* References */
+  .references {
+    width: 100%;
+    margin: 8px 0 20px;
+    padding: 16px;
+  }
+  .ref-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .board { grid-template-columns: 1fr; }
+  .header { font-size: 14px; letter-spacing: 2px; padding: 12px 55px 8px; }
+}
 </style>
 </head>
 <body>
@@ -827,6 +895,7 @@ return { x: er.left - br.left + er.width / 2, y: er.top - br.top + er.height / 2
 }
 
 function drawStrings() {
+if (window.innerWidth <= 860) return;
 const svg = document.getElementById('svgLayer');
 const board = document.getElementById('board');
 if (!svg || !board) return;
@@ -858,6 +927,7 @@ while (el.scrollWidth > el.offsetWidth + 1 && size > 7) { size -= 0.25; el.style
 }
 
 function adjustBoardHeight() {
+if (window.innerWidth <= 860) return;
 const board = document.getElementById('board');
 if (!board) return;
 const boardRect = board.getBoundingClientRect();
