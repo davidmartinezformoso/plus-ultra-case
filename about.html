@@ -3,307 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Evidence Boards</title>
+<title>About — Evidence Board</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: #0a0a0a;
-    color: #ddd;
-    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.75;
-  }
-
-  /* ── NAV ─────────────────────────────────────────── */
-  .nav {
-    background: #000;
-    border-bottom: 2px solid #333;
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .nav-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 5px;
-    color: #fff;
-  }
-  .nav a {
-    color: #888;
-    text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 2px;
-    border: 1px solid #444;
-    padding: 5px 14px;
-    transition: all 0.15s;
-  }
-  .nav a:hover { color: #fff; border-color: #888; }
-
-  /* ── LAYOUT ──────────────────────────────────────── */
-  .container {
-    max-width: 860px;
-    margin: 60px auto;
-    padding: 0 30px 80px;
-  }
-
-  /* ── HERO ────────────────────────────────────────── */
-  .hero {
-    border-left: 4px solid #fff;
-    padding-left: 24px;
-    margin-bottom: 56px;
-  }
-  .hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    letter-spacing: 4px;
-    color: #fff;
-    line-height: 1.1;
-    margin-bottom: 10px;
-  }
-  .hero p {
-    color: #888;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  /* ── SECTIONS ────────────────────────────────────── */
-  section {
-    margin-bottom: 48px;
-    padding-bottom: 48px;
-    border-bottom: 1px solid #222;
-  }
-  section:last-child { border-bottom: none; }
-
-  h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 3px;
-    color: #fff;
-    margin-bottom: 18px;
-  }
-
-  p { color: #bbb; margin-bottom: 14px; }
-  p:last-child { margin-bottom: 0; }
-  strong { color: #fff; font-weight: 600; }
-
-  /* ── CALLOUT BOX ─────────────────────────────────── */
-  .callout {
-    background: #151515;
-    border-left: 3px solid #fff;
-    padding: 16px 20px;
-    margin: 20px 0;
-    color: #ccc;
-    font-size: 14px;
-  }
-  .callout strong {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #888;
-  }
-
-  /* ── CARD ANATOMY ────────────────────────────────── */
-  .anatomy {
-    background: #111;
-    border: 1px solid #2a2a2a;
-    padding: 20px 24px;
-    margin: 20px 0;
-    font-size: 13px;
-  }
-  .anatomy-row {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    padding: 6px 0;
-    border-bottom: 1px solid #1e1e1e;
-  }
-  .anatomy-row:last-child { border-bottom: none; }
-  .anatomy-label {
-    font-weight: 700;
-    color: #fff;
-    min-width: 150px;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .anatomy-desc { color: #999; }
-
-  /* ── DEFINITION LIST ─────────────────────────────── */
-  dl { margin-top: 16px; }
-  dt {
-    font-weight: 700;
-    color: #fff;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 16px;
-    margin-bottom: 4px;
-  }
-  dd {
-    color: #aaa;
-    font-size: 14px;
-    padding-left: 16px;
-    border-left: 2px solid #333;
-  }
-
-  /* ── DISCLAIMER ──────────────────────────────────── */
-  .disclaimer {
-    background: #111;
-    padding: 20px 24px;
-    border: 1px solid #2a2a2a;
-    font-size: 13px;
-    color: #888;
-    line-height: 1.7;
-  }
-  .disclaimer strong {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #666;
-  }
-  .disclaimer p { color: #888; }
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;font-family:'Inter','Helvetica Neue',Arial,sans-serif;color:#ccc;min-height:100vh}
+.header{background:#000;color:#fff;text-align:center;padding:18px 20px 12px;font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:6px;border-bottom:2px solid #444;position:sticky;top:0;z-index:100}
+.header .sub{font-size:11px;color:#888;letter-spacing:3px;margin-top:4px;font-family:'Inter',sans-serif;font-weight:500}
+nav{background:#000;border-bottom:1px solid #222;padding:0 32px;height:40px;display:flex;align-items:center}
+nav a{color:#888;font-size:11px;text-decoration:none;letter-spacing:2px;text-transform:uppercase;margin-right:24px}
+nav a:hover{color:#fff}
+.content{max-width:780px;margin:0 auto;padding:48px 32px 80px}
+h2{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:#fff;margin:36px 0 12px;border-bottom:1px solid #222;padding-bottom:8px}
+h2:first-child{margin-top:0}
+p{font-size:13px;line-height:1.75;color:#bbb;margin-bottom:12px}
+.badge-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px}
+.badge-table th{text-align:left;padding:6px 10px;background:#111;color:#888;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:10px}
+.badge-table td{padding:6px 10px;border-bottom:1px solid #1a1a1a;color:#ccc;vertical-align:top}
+.badge-table td:first-child{font-weight:700;color:#fff;white-space:nowrap}
+.notice{background:#111;border-left:3px solid #444;padding:14px 18px;margin:20px 0;font-size:12px;color:#888;line-height:1.7}
 </style>
 </head>
 <body>
-
-<nav class="nav">
-  <div class="nav-title">EVIDENCE BOARDS</div>
-  <a href="crime_board.html">&#8592; BACK TO BOARD</a>
+<div class="header">
+  Evidence Board — Methodology
+  <div class="sub">HOW TO READ A BOARD · SOURCES · LEGAL NOTICE</div>
+</div>
+<nav>
+  <a href="cases.html">← All Cases</a>
+  <a href="#how-to-read">How to Read</a>
+  <a href="#methodology">Methodology</a>
+  <a href="#legal">Legal Notice</a>
 </nav>
+<div class="content">
 
-<div class="container">
+  <h2 id="what-is">What Is an Evidence Board?</h2>
+  <p>An evidence board is a visual tool used to map relationships, evidence, and key figures in an investigation. Each card represents a person, location, document, or asset. Red strings connect cards where a direct relationship has been documented in public sources. The board is designed to help readers understand complex, multi-party cases at a glance.</p>
 
-  <div class="hero">
-    <h1>About<br>Evidence Boards</h1>
-    <p>Methodology &middot; How to Read &middot; Legal Notice</p>
-  </div>
+  <h2 id="how-to-read">How to Read a Board</h2>
+  <p>Each card contains the following fields in order: a portrait photo or representative image; the subject's name in uppercase; their role during the alleged period of conduct; three headline statistics; a "What We Know" section with confirmed sourced facts; an "Under Investigation" section with contested or open questions; and numbered source links.</p>
+  <p>Strings connect cards where a documented relationship exists. White glowing strings indicate primary connections; grey strings indicate secondary or supporting relationships. String labels name the nature of the relationship in two or three words.</p>
 
-  <!-- WHAT IS AN EVIDENCE BOARD -->
-  <section>
-    <h2>What Is an Evidence Board?</h2>
-    <p>An <strong>evidence board</strong> &mdash; also called a &ldquo;link chart,&rdquo; &ldquo;conspiracy board,&rdquo; or &ldquo;murder board&rdquo; &mdash; is a visual investigative tool used by law enforcement agencies, intelligence analysts, and investigative journalists to map the relationships between individuals, organisations, events, and pieces of evidence in a complex case.</p>
-    <p>The purpose is to make visible the connections that are difficult to hold in mind simultaneously: who knew whom, who paid whom, which organisations overlapped, and what physical evidence links which actors to which events. By laying this out spatially, investigators can spot patterns, identify missing links, and communicate findings clearly to others.</p>
-    <p>Evidence boards have been used in major organised crime investigations, corruption inquiries, financial fraud cases, and terrorism proceedings worldwide. The format used on this site &mdash; cards connected by lines on a dark background &mdash; is the classic representation familiar from real investigative practice.</p>
-  </section>
+  <h2 id="positions">A Note on Positions Shown</h2>
+  <p>The role shown on each card is the position held during the alleged period of conduct, not the person's current role. A person may have left office, been removed from their position, or had their title changed since the events depicted. This is intentional: it reflects their authority and context at the time the relevant conduct is alleged to have occurred.</p>
 
-  <!-- HOW TO READ A BOARD -->
-  <section>
-    <h2>How to Read a Board</h2>
-    <p>Each board on this site is built from two types of card: <strong>suspect cards</strong> (white background) and <strong>evidence cards</strong> (light grey background). Lines connecting cards represent documented relationships or interactions as reported in the cited sources.</p>
+  <h2 id="status-labels">Status Labels</h2>
+  <table class="badge-table">
+    <tr><th>Label</th><th>Meaning</th></tr>
+    <tr><td>ACTIVE CASE</td><td>Investigation or prosecution currently ongoing.</td></tr>
+    <tr><td>CLOSED CASE</td><td>All major proceedings concluded; no active investigation.</td></tr>
+    <tr><td>INDICTED</td><td>Formal criminal charges filed; trial pending or ongoing.</td></tr>
+    <tr><td>CONVICTED</td><td>Found guilty by jury verdict or guilty plea.</td></tr>
+    <tr><td>ARRESTED</td><td>Taken into custody; charges may or may not have been filed.</td></tr>
+    <tr><td>WANTED</td><td>Subject of an outstanding arrest warrant.</td></tr>
+    <tr><td>UNDER SCRUTINY</td><td>Named in filings or investigations; no charges filed.</td></tr>
+    <tr><td>CIVIL SUIT</td><td>Named as defendant in civil proceedings only.</td></tr>
+    <tr><td>WITNESS</td><td>Cooperating witness, survivor, or testifying party.</td></tr>
+    <tr><td>RESIGNED</td><td>Left public position under pressure related to the case.</td></tr>
+    <tr><td>DECEASED</td><td>Subject died before or during proceedings.</td></tr>
+    <tr><td>EXHIBIT A–G</td><td>Evidence item, property, document, or asset.</td></tr>
+  </table>
 
-    <div class="anatomy">
-      <div class="anatomy-row">
-        <span class="anatomy-label">Photo</span>
-        <span class="anatomy-desc">Official or press photo of the individual, or a representative image for evidence items. All photos are greyscale.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">Name</span>
-        <span class="anatomy-desc">Full name of the individual or label for the evidence item.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">Role / Title</span>
-        <span class="anatomy-desc">The position held during the period of alleged conduct. See note below.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">Allegations</span>
-        <span class="anatomy-desc">The most significant alleged conduct, condensed to 2&ndash;3 bullet points from cited sources.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">Stats</span>
-        <span class="anatomy-desc">Three key figures that give rapid context: amounts, dates, or status indicators.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">What We Know</span>
-        <span class="anatomy-desc">Confirmed facts reported by multiple sources or stated in court documents.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">Under Investigation</span>
-        <span class="anatomy-desc">Open questions that judicial or prosecutorial authorities are actively pursuing.</span>
-      </div>
-      <div class="anatomy-row">
-        <span class="anatomy-label">Sources [n]</span>
-        <span class="anatomy-desc">Numbered footnotes linking directly to the underlying news article or court document.</span>
-      </div>
-    </div>
+  <h2 id="methodology">Methodology</h2>
+  <p>All information on these boards is drawn from public sources: court filings, government press releases, legislative records, established news reporting, and Wikipedia articles with cited primary sources. Every factual claim is attributed to a numbered source linked directly on each card and listed in the references section at the bottom of the board.</p>
+  <p>No anonymous sources are used. Statistics, charges, and convictions are not invented or extrapolated — only facts that appear in the cited public record are presented as fact. Where information is contested, alleged, or unresolved, it is placed in the "Under Investigation" section with appropriate hedging language.</p>
 
-    <p>Connecting lines between cards are labelled where the nature of the relationship is clear (e.g. &ldquo;PRESSURE,&rdquo; &ldquo;OWNER,&rdquo; &ldquo;KEY ALLIANCE&rdquo;). A line does not imply criminal culpability &mdash; it indicates a documented connection relevant to the investigation.</p>
-  </section>
-
-  <!-- NOTE ON POSITIONS -->
-  <section>
-    <h2>A Note on Positions Shown</h2>
-
-    <div class="callout">
-      <strong>Important</strong>
-      The title or position displayed beneath each individual&rsquo;s name reflects the role that person held <em>during the period when the alleged conduct is reported to have taken place</em> &mdash; not necessarily their current position at the time of viewing.
-    </div>
-
-    <p>This is standard practice in investigative journalism and law enforcement documentation. Showing the position held at the time of the alleged conduct is essential for understanding the significance of the alleged actions: whether an individual had authority over a decision, access to certain resources, or a specific duty of care.</p>
-    <p>For example, a person described as &ldquo;Minister of Transport&rdquo; reflects that the alleged conduct involved decisions made while they held that ministerial post &mdash; even if they no longer hold that position today. Similarly, a person described as &ldquo;Former President&rdquo; reflects that their alleged conduct relates to activities carried out during or shortly after their time in office.</p>
-    <p>This approach does not imply that the individual currently holds the position shown, nor that their actions in any subsequent role are relevant to the case.</p>
-  </section>
-
-  <!-- STATUS LABELS -->
-  <section>
-    <h2>Understanding Status Labels</h2>
-    <p>The header of each board shows the overall case status. Individual cards also carry status stamps. These labels have the following meanings:</p>
-    <dl>
-      <dt>Active Case</dt>
-      <dd>Formal criminal proceedings have been opened by a competent judicial authority and are ongoing. One or more individuals have been formally cited as investigated persons or defendants.</dd>
-
-      <dt>Closed Case</dt>
-      <dd>Judicial proceedings have concluded, either with a verdict, an acquittal, or a decision to discontinue proceedings.</dd>
-
-      <dt>Arrested / Detained</dt>
-      <dd>The individual has been taken into custody by law enforcement authorities in connection with the investigation.</dd>
-
-      <dt>Indicted</dt>
-      <dd>A formal indictment has been issued by a competent authority charging the individual with specific criminal offences.</dd>
-
-      <dt>Sanctioned</dt>
-      <dd>The individual has been placed on a sanctions list by a governmental authority, restricting financial transactions, asset holdings, or travel.</dd>
-
-      <dt>Under Scrutiny</dt>
-      <dd>The individual has not been formally charged but is subject to active judicial or prosecutorial inquiry as part of the broader investigation.</dd>
-
-      <dt>Wanted</dt>
-      <dd>A warrant has been issued for the individual&rsquo;s arrest by a competent authority, and the individual has not yet been apprehended.</dd>
-    </dl>
-  </section>
-
-  <!-- METHODOLOGY -->
-  <section>
-    <h2>Our Methodology</h2>
-    <p>Boards on this site are assembled exclusively from <strong>publicly available information</strong>: court documents, official judicial orders, government press releases, established news reporting, and publicly available law enforcement indictments.</p>
-    <p>Every claim displayed on a card is referenced by a numbered footnote linking to the underlying source. No anonymous sources, speculative claims, or unverified allegations are included. Where the status of an allegation is uncertain, the language used reflects that uncertainty (&ldquo;allegedly,&rdquo; &ldquo;reportedly,&rdquo; &ldquo;under investigation&rdquo;).</p>
-    <p>Sources are assessed for credibility before inclusion. Preference is given to primary sources (court filings, official statements) over secondary reporting. Where only secondary sources are available, multiple independent sources are required for a claim to be included.</p>
-    <p>Boards are updated as cases develop. The date of last update is shown in the board header. Claims that were accurate at publication may become outdated as judicial proceedings evolve.</p>
-  </section>
-
-  <!-- LEGAL DISCLAIMER -->
-  <section>
-    <h2>Legal Notice</h2>
-    <div class="disclaimer">
-      <strong>Presumption of Innocence</strong>
-      <p>All individuals named on any board on this site are <strong>presumed innocent until proven guilty</strong> in a court of law. Inclusion on an evidence board does not imply, assert, or constitute a finding of guilt. The boards on this site are journalistic and educational resources summarising publicly reported information about judicial investigations.</p>
-      <p style="margin-top: 10px;">This site is produced for informational and educational purposes only and does not constitute legal advice. All information is sourced from publicly available materials. The producers of this site make no representation as to the completeness or ongoing accuracy of the information displayed, and accept no liability for errors or omissions.</p>
-      <p style="margin-top: 10px;">Linked source articles are the property of their respective publishers. All external links open third-party websites. The producers of this site are not responsible for the content of external sites and the inclusion of a link does not constitute endorsement.</p>
-    </div>
-  </section>
+  <h2 id="legal">Legal Notice</h2>
+  <div class="notice">All persons shown on these boards are presumed innocent unless a court of competent jurisdiction has entered a final finding of guilt. Inclusion on this board does not imply criminal culpability. Civil settlements do not constitute admissions of wrongdoing unless explicitly stated in court documents. This site does not constitute legal advice. External links are provided for reference only; we are not responsible for the content of third-party sites.</div>
 
 </div>
-
 </body>
 </html>

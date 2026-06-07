@@ -349,13 +349,24 @@
     line-height: 1.4;
   }
   .csection-inv .csection-title { color: #888; }
+
+/* ── 3-dot nav menu ── */
+#menu-drop.open{display:block!important}
+#nav-menu button:hover{border-color:#888;color:#fff}
+#menu-drop a:hover{background:#111;color:#fff}
 </style>
 </head>
 <body>
 
 <div class="header">
   OPERACIÓN PLUS ULTRA — EVIDENCE BOARD
-  <a href="about.html" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);color:#888;font-family:Inter,sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;border:1px solid #444;padding:4px 10px;">ℹ ABOUT</a>
+  <div id="nav-menu" style="position:absolute;right:20px;top:50%;transform:translateY(-50%)">
+    <button id="menu-btn" onclick="document.getElementById('menu-drop').classList.toggle('open')" style="background:none;border:1px solid #444;color:#888;font-size:20px;line-height:1;padding:3px 11px 5px;cursor:pointer">⋮</button>
+    <div id="menu-drop" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#000;border:1px solid #444;min-width:150px;z-index:300">
+      <a href="cases.html" style="display:block;padding:11px 18px;color:#ccc;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase;border-bottom:1px solid #222">Cases</a>
+      <a href="about.html" style="display:block;padding:11px 18px;color:#ccc;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase">About</a>
+    </div>
+  </div>
   <div class="sub">ACTIVE CASE · 2026 · SPAIN · MONEY LAUNDERING</div>
 </div>
 
@@ -989,6 +1000,13 @@ window.addEventListener('load', () => {
 });
 window.addEventListener('resize', () => { adjustBoardHeight(); drawStrings(); });
 window.addEventListener('resize', drawStrings);
+</script>
+
+<script>
+document.addEventListener('click',function(e){
+  var m=document.getElementById('nav-menu');
+  if(m&&!m.contains(e.target))document.getElementById('menu-drop').classList.remove('open');
+});
 </script>
 </body>
 </html>
