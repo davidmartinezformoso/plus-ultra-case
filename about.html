@@ -22,15 +22,31 @@ p{font-size:13px;line-height:1.75;color:#bbb;margin-bottom:12px}
 .badge-table td{padding:6px 10px;border-bottom:1px solid #1a1a1a;color:#ccc;vertical-align:top}
 .badge-table td:first-child{font-weight:700;color:#fff;white-space:nowrap}
 .notice{background:#111;border-left:3px solid #444;padding:14px 18px;margin:20px 0;font-size:12px;color:#888;line-height:1.7}
+
+/* ── 3-dot nav menu (consistent across all pages) ── */
+#nav-menu{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+#menu-btn{background:none;border:1px solid #444;color:#888;font-size:20px;line-height:1;padding:3px 11px 5px;cursor:pointer}
+#menu-drop{display:none;position:absolute;right:0;top:calc(100% + 6px);background:#000;border:1px solid #444;min-width:150px;z-index:300}
+#menu-drop a{display:block;padding:11px 18px;color:#ccc;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase}
+#menu-drop a:first-child{border-bottom:1px solid #222}
+#menu-drop.open{display:block}
+#menu-btn:hover{border-color:#888;color:#fff}
+#menu-drop a:hover{background:#111;color:#fff}
 </style>
 </head>
 <body>
-<div class="header">
+<div class="header" style="position:relative">
   Evidence Board — Methodology
+  <div id="nav-menu">
+    <button id="menu-btn" onclick="document.getElementById('menu-drop').classList.toggle('open')">⋮</button>
+    <div id="menu-drop">
+      <a href="cases.html">Boards</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
   <div class="sub">HOW TO READ A BOARD · SOURCES · LEGAL NOTICE</div>
 </div>
 <nav>
-  <a href="cases.html">← All Cases</a>
   <a href="#how-to-read">How to Read</a>
   <a href="#methodology">Methodology</a>
   <a href="#legal">Legal Notice</a>
@@ -72,5 +88,11 @@ p{font-size:13px;line-height:1.75;color:#bbb;margin-bottom:12px}
   <div class="notice">All persons shown on these boards are presumed innocent unless a court of competent jurisdiction has entered a final finding of guilt. Inclusion on this board does not imply criminal culpability. Civil settlements do not constitute admissions of wrongdoing unless explicitly stated in court documents. This site does not constitute legal advice. External links are provided for reference only; we are not responsible for the content of third-party sites.</div>
 
 </div>
+<script>
+document.addEventListener('click',function(e){
+  var m=document.getElementById('nav-menu');
+  if(m&&!m.contains(e.target))document.getElementById('menu-drop').classList.remove('open');
+});
+</script>
 </body>
 </html>

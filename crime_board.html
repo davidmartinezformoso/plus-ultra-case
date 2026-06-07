@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Interactive evidence board for the Plus Ultra corruption case (2026). Tracks €70M+ under investigation, 10 countries, 60 people including former Spanish PM Zapatero, Venezuelan VP Delcy Rodríguez, and Nicolás Maduro.">
-<meta name="keywords" content="Plus Ultra case, Zapatero corruption, Spain Venezuela money laundering, caso Plus Ultra, Zapatero imputado, evidence board, Delcy Rodriguez, Maduro">
-<meta property="og:title" content="Operación Plus Ultra — Evidence Board">
+<meta name="keywords" content="Plus Ultra case, Zapatero corruption, Spain Venezuela money laundering, Zapatero charged, evidence board, Delcy Rodriguez, Maduro">
+<meta property="og:title" content="Operation Plus Ultra — Evidence Board">
 <meta property="og:description" content="€70M+ under investigation · 10 countries · 60 people · Active case 2026">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://plus-ultra-case.vercel.app">
 <meta name="robots" content="index, follow">
-<title>OPERACIÓN PLUS ULTRA — Evidence Board</title>
+<title>OPERATION PLUS ULTRA — Evidence Board</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -112,11 +112,11 @@
     display: block;
   }
 
-  /* ── PORTRAIT FACE ZOOM ─────────────────────────── */
+  /* ── PORTRAIT FIT (fill frame, keep full head) ──── */
   .suspect .photo-box img,
   .suspect-main .photo-box img {
-    transform: scale(1.45);
-    transform-origin: center 28%;
+    object-fit: cover;
+    object-position: center top;
   }
   .photo-box .fallback-svg { width: 70px; height: 70px; opacity: 0.3; }
 
@@ -359,15 +359,15 @@
 <body>
 
 <div class="header">
-  OPERACIÓN PLUS ULTRA — EVIDENCE BOARD
+  OPERATION PLUS ULTRA — EVIDENCE BOARD
   <div id="nav-menu" style="position:absolute;right:20px;top:50%;transform:translateY(-50%)">
     <button id="menu-btn" onclick="document.getElementById('menu-drop').classList.toggle('open')" style="background:none;border:1px solid #444;color:#888;font-size:20px;line-height:1;padding:3px 11px 5px;cursor:pointer">⋮</button>
     <div id="menu-drop" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#000;border:1px solid #444;min-width:150px;z-index:300">
-      <a href="cases.html" style="display:block;padding:11px 18px;color:#ccc;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase;border-bottom:1px solid #222">Cases</a>
+      <a href="cases.html" style="display:block;padding:11px 18px;color:#ccc;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase;border-bottom:1px solid #222">Boards</a>
       <a href="about.html" style="display:block;padding:11px 18px;color:#ccc;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-decoration:none;text-transform:uppercase">About</a>
     </div>
   </div>
-  <div class="sub">ACTIVE CASE · 2026 · SPAIN · MONEY LAUNDERING</div>
+  <div class="sub">ACTIVE CASE · SPAIN · MONEY LAUNDERING</div>
 </div>
 
 <div class="board-wrapper">
@@ -414,7 +414,7 @@
       </div>
       <div class="csources">SOURCES: <a href="https://planet.news/article/zapatero-corruption-charges-plus-ultra-historic-scandal" target="_blank">[3]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-30/zapatero-claves-petroleo-minas-oro-joyas/" target="_blank">[1]</a> <a href="https://www.irishtimes.com/world/europe/2026/05/25/inquiry-into-former-spanish-prime-minister-leaves-government-reeling/" target="_blank">[11]</a></div>
     </div>
-    <div class="stamp">IMPUTADO</div>
+    <div class="stamp">CHARGED</div>
   </div>
 
   <!-- 2. DELCY RODRÍGUEZ — top right -->
@@ -516,7 +516,7 @@
       </div>
       <div class="csources">SOURCES: <a href="https://theobjective.com/espana/tribunales/2026-05-22/sanchez-abalos-zapatero-trama-petroleo/" target="_blank">[14]</a> <a href="https://theobjective.com/espana/tribunales/2026-05-24/zapatero-delcy-plus-ultra/" target="_blank">[12]</a></div>
     </div>
-    <div class="stamp">IMPUTADO</div>
+    <div class="stamp">CHARGED</div>
   </div>
 
   <!-- 5. JULIO MARTÍNEZ "JULITO" — center -->
